@@ -15,4 +15,4 @@ Một báo cáo hữu ích nên có:
 - Ảnh chụp lỗi nếu phù hợp.
 - File `backend.log` sau khi đã kiểm tra và xoá thông tin nhạy cảm.
 
-Hãy dùng [GitHub Issues](https://github.com/ducminh25/themis-v2/issues) cho lỗi thông thường. Với vấn đề bảo mật, làm theo [SECURITY.md](SECURITY.md).
+Hãy dùng [GitHub Issues](https://github.com/ducminh25/judgedesk/issues) cho lỗi thông thường. Với vấn đề bảo mật, làm theo [SECURITY.md](SECURITY.md).

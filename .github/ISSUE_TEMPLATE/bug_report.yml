@@ -1,5 +1,5 @@
 name: Báo lỗi
-description: Báo cáo một lỗi có thể tái hiện trong ThemisV2
+description: Báo cáo một lỗi có thể tái hiện trong JudgeDesk
 title: "[Bug]: "
 labels:
   - bug
@@ -7,8 +7,8 @@ body:
   - type: input
     id: version
     attributes:
-      label: Phiên bản ThemisV2
-      placeholder: v1.1.0
+      label: Phiên bản JudgeDesk
+      placeholder: v1.3.0
     validations:
       required: true
   - type: dropdown
@@ -17,7 +17,6 @@ body:
       label: Hệ điều hành
       options:
         - Windows 10/11 x64
-        - macOS Intel
         - macOS Apple Silicon
     validations:
       required: true

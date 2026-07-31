@@ -1,5 +1,5 @@
 blank_issues_enabled: false
 contact_links:
   - name: Báo cáo lỗ hổng bảo mật
-    url: https://github.com/ducminh25/themis-v2/security/advisories/new
+    url: https://github.com/ducminh25/judgedesk/security/advisories/new
     about: Gửi báo cáo riêng tư, không đăng lỗ hổng công khai.

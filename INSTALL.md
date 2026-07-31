@@ -1,60 +1,68 @@
 # Hướng dẫn cài đặt JudgeDesk
 
-Chỉ tải JudgeDesk từ trang [Releases chính thức](https://github.com/ducminh25/themis-v2/releases).
+Chỉ tải JudgeDesk từ trang [Releases chính thức](https://github.com/ducminh25/judgedesk/releases).
+
+Nếu một release cung cấp cả hai biến thể:
+
+- **Full**: kèm các managed toolchain được hỗ trợ để cài xong là có thể chấm.
+- **Core**: bộ chấm gọn hơn; có thể tải managed toolchain sau trong JudgeDesk
+  hoặc dùng compiler/runtime cục bộ phù hợp.
 
 ## Windows 10/11 x64
 
-1. Mở release mới nhất và tải file `JudgeDesk_..._x64_en-US.msi`.
-2. Tải thêm `SHA256SUMS` trong cùng release.
+1. Mở release mới nhất và tải file MSI x64; giáo viên/học sinh nên chọn bản
+   **Full** nếu không có nhu cầu quản trị toolchain riêng.
+2. Tải thêm file checksum dành cho Windows trong cùng release.
 3. Kiểm tra checksum bằng PowerShell:
 
    ```powershell
    Get-FileHash .\JudgeDesk_*.msi -Algorithm SHA256
-   Get-Content .\SHA256SUMS
+   Get-Content .\SHA256SUMS-windows
    ```
 
 4. Đối chiếu hai giá trị rồi chạy file MSI.
-5. Mở JudgeDesk và chọn cách cấu hình compiler/runtime ở màn hình đầu tiên.
+5. Mở JudgeDesk và kiểm tra **Quản lý Trình biên dịch & Runtimes**. Bản Full
+   phải hiển thị C++, C, Python, Pascal và Java ở trạng thái sẵn sàng chấm.
 
-MSI v1.2.0 giữ nguyên mã nâng cấp của ThemisV2. Nếu máy đã cài ThemisV2
-1.1.3/1.1.4, bộ cài sẽ nâng cấp ứng dụng hiện có sang JudgeDesk thay vì tạo một
-bản cài song song. Dữ liệu và toolchain hiện có được giữ nguyên.
+MSI giữ nguyên mã nâng cấp của các bản ThemisV2/JudgeDesk 1.x trước đây, tránh
+tạo hai ứng dụng song song và giữ lại dữ liệu tương thích.
 
 Nếu Windows hiển thị cảnh báo nhà phát hành, không tiếp tục nếu file không đến
 từ repo này hoặc checksum không khớp.
 
 ## macOS Apple Silicon
 
-JudgeDesk v1.2.0 hỗ trợ macOS 11 trở lên trên máy M-chip.
+JudgeDesk chỉ phát hành cho máy Mac dùng Apple Silicon (dòng M).
 
-1. Mở release mới nhất và tải file `.dmg` aarch64.
-2. Tải `SHA256SUMS`, sau đó kiểm tra trong Terminal:
+1. Mở release mới nhất và tải file `.dmg` aarch64/Apple Silicon; chọn bản Full
+   nếu release có nhiều biến thể.
+2. Tải file checksum dành cho macOS, sau đó kiểm tra trong Terminal:
 
    ```bash
    shasum -a 256 JudgeDesk_*.dmg
-   cat SHA256SUMS
+   cat SHA256SUMS-macos
    ```
 
 3. Mở DMG và kéo JudgeDesk vào thư mục Applications.
 4. Mở JudgeDesk từ Applications.
 
-Máy đang dùng ThemisV2 1.1.3/1.1.4 có thể dùng chức năng cập nhật trong app;
-identifier và kho dữ liệu người dùng được giữ nguyên trong quá trình đổi tên.
-
 Nếu Gatekeeper chặn ứng dụng, chỉ dùng **System Settings → Privacy & Security →
 Open Anyway** sau khi đã xác minh checksum và nguồn tải. Không chạy các lệnh xóa
 quarantine lấy từ nguồn không tin cậy.
 
-## Compiler và Python
+## Compiler và runtime
 
-JudgeDesk hỗ trợ ba lựa chọn:
+Trong **Quản lý Trình biên dịch & Runtimes**, mỗi ngôn ngữ có một nguồn cố định:
 
-- Dùng G++/Python đã có trên máy.
-- Chỉ dùng chức năng judger với môi trường hệ thống.
-- Để ứng dụng tải gói GCC/Python độc lập, đã được kiểm tra SHA-256.
+- `None`: tắt ngôn ngữ đó.
+- `Managed by toolchain`: dùng gói đi kèm bản Full hoặc do JudgeDesk tải về.
+- `Local (path)`: dùng đường dẫn do người dùng chọn.
+- `Local (auto-detect)`: dùng compiler/runtime được phát hiện nhanh trên máy.
 
-Windows có gói GCC và Python được quản lý. macOS sử dụng Apple Clang từ Xcode
-Command Line Tools cho C/C++ và có thể tải Python độc lập.
+Windows Full kèm GCC cho C/C++, CPython, Free Pascal và Temurin Java. macOS Full
+kèm CPython, Free Pascal và Temurin Java; C/C++ dùng Apple Clang từ Xcode
+Command Line Tools. Nguồn không khả dụng sẽ không âm thầm fallback sang nguồn
+khác.
 
 ## Gỡ cài đặt
 
