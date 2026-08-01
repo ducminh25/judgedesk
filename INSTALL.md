@@ -8,10 +8,14 @@ Nếu một release cung cấp cả hai biến thể:
 - **Core**: bộ chấm gọn hơn; có thể tải managed toolchain sau trong JudgeDesk
   hoặc dùng compiler/runtime cục bộ phù hợp.
 
+Hai biến thể không phải hai ứng dụng độc lập. Chúng dùng chung cấu hình, dữ liệu
+và cơ chế nâng cấp; cài Core sẽ thay thế Full và ngược lại.
+
 ## Windows 10/11 x64
 
-1. Mở release mới nhất và tải file MSI x64; giáo viên/học sinh nên chọn bản
-   **Full** nếu không có nhu cầu quản trị toolchain riêng.
+1. Mở release mới nhất và tải
+   `JudgeDesk_<version>_full_x64_en-US.msi` (khuyến nghị) hoặc
+   `JudgeDesk_<version>_core_x64_en-US.msi`.
 2. Tải thêm file checksum dành cho Windows trong cùng release.
 3. Kiểm tra checksum bằng PowerShell:
 
@@ -34,8 +38,8 @@ từ repo này hoặc checksum không khớp.
 
 JudgeDesk chỉ phát hành cho máy Mac dùng Apple Silicon (dòng M).
 
-1. Mở release mới nhất và tải file `.dmg` aarch64/Apple Silicon; chọn bản Full
-   nếu release có nhiều biến thể.
+1. Mở release mới nhất và tải `JudgeDesk_<version>_full_aarch64.dmg` (khuyến
+   nghị) hoặc `JudgeDesk_<version>_core_aarch64.dmg`.
 2. Tải file checksum dành cho macOS, sau đó kiểm tra trong Terminal:
 
    ```bash
