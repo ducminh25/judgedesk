@@ -1,4 +1,46 @@
-# JudgeDesk v1.3.0
+# JudgeDesk changelog
+
+## v1.3.3 — 2026-08-13
+
+### Hiệu năng và độ phản hồi
+
+- Giảm thời gian khởi động Native protection trên Windows khi cache toolchain
+  lớn đã có đúng ACL; mọi sai lệch vẫn đi qua đường sửa/fail-closed cũ.
+- Mỗi phiên chấm chỉ quét source/test và cấu hình testcase một lần. Điểm kết
+  quả vẫn chỉ xuất hiện sau khi bài chạy và checker trả verdict như trước.
+- Bảng điểm dùng chỉ mục kết quả, memo hóa từng hàng và gom progress event theo
+  frame, giúp cuộn/chấm kỳ thi lớn ổn định hơn.
+- Nén/mở kỳ thi `.judgedesk`, tạo workbook Excel và thao tác toolchain nặng
+  được chuyển khỏi luồng giao diện; polling chậm không chạy chồng lặp.
+
+### Xuất Excel
+
+- Nút **Xuất file Excel** sáng khi có ít nhất một thí sinh hoặc một bài, kể cả
+  trước khi chấm; ô và tổng điểm chưa có kết quả được để trống.
+- Trên Windows có Microsoft Excel, JudgeDesk mở workbook `.xlsx` mới chưa lưu
+  để `Ctrl+S` hoặc đóng workbook đi qua Save As. Máy không có Excel và macOS
+  giao cùng file `.xlsx` cho ứng dụng do hệ điều hành chọn.
+- Chặn xuất trùng trong lúc worker đang tạo file và dùng giới hạn tổng payload
+  256 MiB, phù hợp hơn với kỳ thi lớn.
+
+### Nền tảng build
+
+- Khóa release vào Node.js 24.19.0/npm 11.17.0, Rust 1.97.1 và dependency Tauri
+  v2 theo lockfile.
+- Giữ nguyên Windows 10/11 x64 và macOS 11+ Apple Silicon, application identity,
+  dữ liệu người dùng và updater key.
+
+## v1.3.2 — 2026-08-10
+
+- Full tự chọn package managed đi kèm đúng một lần khi cài mới hoặc thay Core;
+  các lựa chọn thủ công sau bootstrap tiếp tục được giữ nguyên.
+- Discovery C/C++/Python chạy nền, ưu tiên `PATH` và trả snapshot nhanh để không
+  chặn giao diện khi khởi động compiler/runtime.
+- Thêm flags biên dịch riêng từng bài, Help Center offline song ngữ, phím F1,
+  About và chẩn đoán hỗ trợ.
+- Giữ installer Windows và disk image macOS; không phát hành bản portable.
+
+## v1.3.0 — 2026-08-01
 
 Phát hành ngày 2026-08-01 cho Windows 10/11 x64 và macOS Apple Silicon.
 
