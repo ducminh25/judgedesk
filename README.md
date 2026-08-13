@@ -8,13 +8,13 @@ dùng. Mã nguồn ứng dụng không được phân phối trong repository n�
 ## Tải xuống
 
 - [Releases](https://github.com/ducminh25/judgedesk/releases)
-- [Thay đổi trong v1.3.3](CHANGELOG.md)
+- [Thay đổi trong v1.3.4](CHANGELOG.md)
 - [Hướng dẫn cài đặt](INSTALL.md)
 - [Managed toolchains](TOOLCHAINS.md)
 - [Hỗ trợ và báo lỗi](SUPPORT.md)
 - [Chính sách bảo mật](SECURITY.md)
 
-## JudgeDesk v1.3.3
+## JudgeDesk v1.3.4
 
 JudgeDesk phát hành cho Windows 10/11 x64 và macOS Apple Silicon với hai lựa
 chọn:
@@ -36,6 +36,16 @@ cuộn bảng điểm và xử lý kỳ thi/Excel. Nút **Xuất file Excel** d�
 có ít nhất một thí sinh hoặc một bài; dữ liệu chưa chấm được để trống. Trên
 Windows có Microsoft Excel, JudgeDesk mở workbook mới chưa lưu để thao tác
 `Ctrl+S` hoặc đóng file luôn đi qua Save As.
+
+Từ v1.3.4, khi có phiên bản mới, nút **Updater** hiển thị cả Core và Full, đánh
+dấu edition đang dùng và cho biết dung lượng tải/cài đặt. Cập nhật cùng edition
+bắt đầu ngay; khi đổi Core ↔ Full, JudgeDesk giải thích ảnh hưởng tới toolchain
+và hỏi xác nhận trước khi tải. Cấu hình compiler/runtime tùy chỉnh tiếp tục được
+giữ nguyên khi cập nhật cùng edition.
+
+v1.3.4 là mốc bắt đầu updater Core/Full mới. Người dùng bản cũ cần tải và cài
+v1.3.4 thủ công một lần; các lần sau có thể chọn edition ngay trong app. Nút cốc
+cà phê mới chỉ mở trang QR ủng hộ sau khi người dùng xác nhận.
 
 Chỉ tải artifact từ trang Releases của repository này và đối chiếu checksum
 được phát hành cùng phiên bản trước khi cài đặt.

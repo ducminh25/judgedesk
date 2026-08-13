@@ -1,5 +1,27 @@
 # JudgeDesk changelog
 
+## v1.3.4 — 2026-08-13
+
+### Cập nhật Core và Full
+
+- Khi có phiên bản mới, nút Updater mở hai lựa chọn Core và Full, đánh dấu bản
+  đang dùng và hiển thị dung lượng tải về/dung lượng sau cài đặt từ chính
+  artefact release.
+- Cập nhật cùng edition bắt đầu tải ngay sau khi chọn. Khi đổi Core ↔ Full,
+  JudgeDesk giải thích trước ảnh hưởng tới toolchain và yêu cầu xác nhận trước
+  khi tải; người dùng không phải gỡ ứng dụng hoặc tự tìm đúng file cài đặt.
+- Core → Core và Full → Full giữ lựa chọn compiler/runtime tùy chỉnh. Full mới
+  thay các toolchain tích hợp bằng package của release mới; Core không tự đổi
+  đường dẫn compiler người dùng đã chọn.
+- Gói cập nhật đã tải nhưng chưa cài chỉ được giữ trong bộ nhớ của tiến trình và
+  được giải phóng khi hủy, chọn lại hoặc đóng JudgeDesk. Updater luôn đọc
+  `latest.json`, nên máy bỏ qua một hay nhiều bản vẫn nhận phiên bản mới nhất.
+
+### Ủng hộ dự án
+
+- Thêm nút cốc cà phê giữa Updater và Công cụ. JudgeDesk luôn hỏi xác nhận trước
+  khi mở trang QR ủng hộ bằng trình duyệt mặc định.
+
 ## v1.3.3 — 2026-08-13
 
 ### Hiệu năng và độ phản hồi

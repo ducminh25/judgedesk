@@ -26,6 +26,22 @@ vì tạo một bản cài song song. Dữ liệu và toolchain hiện có đư�
 Nếu Windows hiển thị cảnh báo nhà phát hành, không tiếp tục nếu file không đến
 từ repo này hoặc checksum không khớp.
 
+## Cập nhật trong JudgeDesk từ v1.3.4
+
+Khi tìm thấy phiên bản mới, bấm nút Updater rồi chọn **Core** hoặc **Full**.
+JudgeDesk đánh dấu edition đang dùng và cho biết dung lượng tải/cài đặt:
+
+- Chọn đúng edition hiện tại để cập nhật bình thường; không có thêm cảnh báo.
+- Chọn edition khác để xem trước thay đổi toolchain rồi xác nhận hoặc hủy trước
+  khi tải.
+- Đóng JudgeDesk sau khi tải nhưng trước khi cài sẽ bỏ gói đã tải. Lần sau có
+  thể tải lại; dữ liệu kỳ thi và cấu hình compiler không bị xóa.
+- Updater luôn dùng release mới nhất. Không cần cài lần lượt các phiên bản đã bỏ
+  qua.
+
+Các bản trước v1.3.4 chưa hiểu hai kênh Core/Full. Hãy cài v1.3.4 thủ công một
+lần từ trang Releases; từ đó các lần cập nhật tiếp theo dùng luồng trên.
+
 ## macOS Apple Silicon
 
 JudgeDesk hỗ trợ macOS 11 trở lên trên máy Apple Silicon (dòng M).
