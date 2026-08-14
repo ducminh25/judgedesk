@@ -20,7 +20,7 @@ Get-Content .\SHA256SUMS
 
 Gói cài đặt tự động nâng cấp nếu trên máy đã có phiên bản JudgeDesk trước đó, giữ nguyên dữ liệu kỳ thi và cấu hình toolchain hiện tại.
 
-## macOS Apple Silicon (M1/M2/M3/M4)
+## macOS Apple Silicon
 
 JudgeDesk hỗ trợ macOS 11 trở lên trên kiến trúc Apple Silicon (ARM64).
 
