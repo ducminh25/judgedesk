@@ -1,37 +1,62 @@
-# Managed toolchains
+# Quản lý Toolchain trong JudgeDesk
 
-JudgeDesk Full đóng gói sẵn các compiler/runtime được quản lý. JudgeDesk Core có
-thể tải đúng các gói tương tự từ release
-[`toolchains-v2`](https://github.com/ducminh25/judgedesk/releases/tag/toolchains-v2).
+JudgeDesk có hai hình thức phân phối toolchain:
 
-| Gói | Nền tảng | Phiên bản | Phục vụ |
-| --- | --- | --- | --- |
-| GCC/MinGW-w64 | Windows x64 | 14.2.0 | C++, C |
-| CPython | Windows x64 | 3.12.13 | Python |
-| Free Pascal | Windows x64 | 3.2.2 | Pascal (`.pas`, `.pp`) |
-| Temurin JDK | Windows x64 | 21.0.12+8 | Java |
-| CPython | macOS Apple Silicon | 3.12.13 | Python |
-| Free Pascal | macOS Apple Silicon | 3.2.2 | Pascal (`.pas`, `.pp`) |
-| Temurin JDK | macOS Apple Silicon | 21.0.12+8 | Java |
+Gói **Full** chứa sẵn toàn bộ trình biên dịch và runtime cần thiết cho hệ điều hành, sẵn sàng chấm offline ngay sau khi cài đặt.
 
-Trên macOS, C/C++ dùng Apple Clang từ Xcode Command Line Tools và lớp tương
-thích của JudgeDesk; không có gói GCC macOS trong catalog.
+Gói **Core** chỉ gồm nhân chấm thi, cho phép tải các gói compiler đã ký từ GitHub Release hoặc cấu hình compiler có sẵn trên máy.
 
-## Kiểm tra tính toàn vẹn
+## Danh mục compiler và runtime
 
-`toolchains-manifest.json` v2 được ký và chứa URL, nền tảng, kiến trúc, kích
-thước, SHA-256, entrypoint và các file bắt buộc của từng gói. JudgeDesk xác minh
-chữ ký catalog, checksum archive và cấu trúc tối thiểu trước khi áp dụng. Lần mở
-đầu chỉ chạy phát hiện/probe nhanh; ứng dụng không bắt giáo viên chờ một bộ
-certification nhiều phút cho từng ngôn ngữ.
+| Ngôn ngữ | Đuôi tệp | Windows x64 | macOS Apple Silicon |
+| :--- | :--- | :--- | :--- |
+| **C++** | `.cpp` | GCC 14.2.0 (Managed) | Apple Clang (Hệ thống / Xcode Tools) |
+| **C** | `.c` | GCC 14.2.0 (Managed) | Apple Clang (Hệ thống / Xcode Tools) |
+| **Python** | `.py` | CPython 3.12.13 (Managed) | CPython 3.12.13 (Managed) |
+| **Pascal / FPC** | `.pas`, `.pp` | Free Pascal 3.2.2 (Managed) | Free Pascal 3.2.2 (Managed) |
+| **Java** | `.java` | Eclipse Temurin OpenJDK 21.0.12+8 (Managed) | Eclipse Temurin OpenJDK 21.0.12+8 (Managed) |
 
-## Nguồn và giấy phép
+Phiên bản hiện tại không hỗ trợ macOS trên chip Intel (x86_64).
 
-- GCC: [GNU Compiler Collection](https://gcc.gnu.org/), được đóng gói từ bản dựng [WinLibs](https://github.com/brechtsanders/winlibs_mingw). Gói phát hành bao gồm `COPYING3`, `COPYING.RUNTIME` và `SOURCE.txt`.
-- Python: [CPython](https://www.python.org/) từ [python-build-standalone](https://github.com/astral-sh/python-build-standalone).
-- Pascal: [Free Pascal](https://www.freepascal.org/).
-- Java: [Eclipse Temurin](https://adoptium.net/).
+## Thành phần tích hợp trong bản Full
 
-Repository này không thay đổi giấy phép của thành phần bên thứ ba. Mỗi archive
-phát hành kèm file giấy phép, thông báo bên thứ ba, thông tin nguồn và SBOM để
-đối chiếu.
+Bản Windows Full gồm 4 gói:
+1. `gcc-windows-x64` (dùng chung cho C++ và C)
+2. `python-windows-x64`
+3. `fpc-windows-x64`
+4. `temurin21-windows-x64`
+
+Bản macOS Full gồm 3 gói:
+1. `python-macos-arm64`
+2. `fpc-macos-arm64`
+3. `temurin21-macos-arm64`
+
+Trên macOS, việc biên dịch C và C++ sử dụng Apple Clang từ Xcode Command Line Tools.
+
+## Cờ biên dịch mặc định
+
+Thiết lập biên dịch mặc định giữ tính tương thích với Themis:
+
+- **C++ (C++14):** `-pipe -O2 -s -static -lm -x c++` (Windows đặt stack reserve `66060288` byte).
+- **C (C11):** `-pipe -O2 -s -static -lm -x c` (Windows đặt stack reserve `66060288` byte).
+- **Pascal:** `-O2 -XS -Sg -Cs66060288`.
+- **Java:** Biên dịch qua `javac` vào thư mục đầu ra riêng để thu thập tệp `.class`.
+- **Python:** Chạy trực tiếp qua trình thông dịch Python được chỉ định.
+
+## Cơ chế phát hiện trình biên dịch cục bộ (Local)
+
+Khi khởi động lần đầu, ứng dụng quét nhanh các biến môi trường `PATH` và các thư mục cài đặt tiêu chuẩn để phát hiện compiler có sẵn. Quá trình quét giới hạn trong vài giây, không duyệt toàn bộ ổ đĩa.
+
+Mỗi ngôn ngữ có 4 trạng thái cấu hình:
+- `None`: Không sử dụng.
+- `Managed`: Dùng gói tải về có chữ ký của JudgeDesk.
+- `Local (auto-detect)`: Dùng compiler hệ thống được tự động phát hiện.
+- `Local (path)`: Dùng đường dẫn thực thi do người dùng chỉ định thủ công.
+
+Trình biên dịch cục bộ phải đáp ứng các bài kiểm tra thực thi an toàn của hệ điều hành trước khi được chấp nhận chấm bài.
+
+## Xác thực tính toàn vẹn và bản quyền
+
+Mỗi gói toolchain được đóng gói kèm tệp giấy phép (License, Notices) và danh mục linh kiện phần mềm (SPDX SBOM).
+
+Tệp manifest phiên bản 2 (`toolchains-manifest.json`) được ký số bằng thuật toán Ed25519, cố định mã gói, phiên bản, kích thước, kiến trúc CPU và mã băm SHA-256. Ứng dụng kiểm tra chữ ký và mã băm trước khi giải nén gói vào hệ thống.

@@ -1,7 +1,7 @@
-# Security policy
+# Chính sách bảo mật
 
-Không đăng công khai lỗ hổng chưa được khắc phục, mã khai thác, dữ liệu cuộc thi hoặc thông tin đăng nhập.
+Vui lòng không công khai các lỗ hổng chưa được vá, mã khai thác hoặc thông tin nhạy cảm (dữ liệu đề thi, bài làm thí sinh, thông tin đăng nhập).
 
-Hãy dùng mục **Security → Report a vulnerability** của repo này để gửi báo cáo riêng tư. Báo cáo nên gồm phiên bản, nền tảng, mức ảnh hưởng và các bước tái hiện tối thiểu.
+Gửi báo cáo lỗ hổng bảo mật riêng tư qua mục [GitHub Security Advisories](https://github.com/ducminh25/judgedesk/security/advisories/new). Báo cáo cần nêu rõ phiên bản phần mềm, hệ điều hành, mức độ ảnh hưởng và các bước tái hiện lỗi tối thiểu.
 
-Chỉ các file trong [GitHub Releases chính thức](https://github.com/ducminh25/judgedesk/releases) kèm checksum phù hợp mới được xem là bản phân phối JudgeDesk chính thức.
+Chỉ tải và sử dụng các bản phân phối chính thức từ [GitHub Releases](https://github.com/ducminh25/judgedesk/releases) kèm mã băm SHA-256 tương ứng.

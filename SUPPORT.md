@@ -1,18 +1,16 @@
-# Hỗ trợ và báo lỗi
+# Hỗ trợ và Báo lỗi
 
-Trước khi tạo issue:
+Trước khi tạo issue báo lỗi:
 
-1. Kiểm tra bạn đang dùng release mới nhất.
-2. Khởi động lại ứng dụng và thử lại với một thư mục contest mẫu nhỏ.
-3. Không đăng dữ liệu thí sinh, đề thi chưa công bố, token hoặc thông tin cá nhân.
+1. Kiểm tra ứng dụng đã ở phiên bản mới nhất.
+2. Thử nghiệm lại lỗi với một thư mục bài thi mẫu đơn giản.
+3. Loại bỏ thông tin cá nhân của thí sinh và đề thi chưa công bố khỏi nội dung gửi kèm.
 
-Một báo cáo hữu ích nên có:
+Thông tin cần cung cấp khi báo lỗi:
+- Phiên bản JudgeDesk đang sử dụng.
+- Hệ điều hành và kiến trúc phần cứng (Windows 10/11 x64 hoặc macOS Apple Silicon).
+- Thứ tự các bước thực hiện để tạo lại lỗi.
+- Kết quả mong muốn và kết quả thực tế nhận được.
+- Ảnh chụp màn hình hoặc đoạn log liên quan trong `backend.log` (đã lọc bỏ dữ liệu nhạy cảm).
 
-- Phiên bản JudgeDesk.
-- Hệ điều hành và kiến trúc CPU.
-- Các bước tái hiện theo thứ tự.
-- Kết quả mong đợi và kết quả thực tế.
-- Ảnh chụp lỗi nếu phù hợp.
-- File `backend.log` sau khi đã kiểm tra và xoá thông tin nhạy cảm.
-
-Hãy dùng [GitHub Issues](https://github.com/ducminh25/judgedesk/issues) cho lỗi thông thường. Với vấn đề bảo mật, làm theo [SECURITY.md](SECURITY.md).
+Gửi báo lỗi kỹ thuật tại [GitHub Issues](https://github.com/ducminh25/judgedesk/issues). Với các vấn đề liên quan đến lỗ hổng bảo mật, thực hiện theo [SECURITY.md](SECURITY.md).

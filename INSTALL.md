@@ -1,90 +1,63 @@
-# Hướng dẫn cài đặt JudgeDesk
+# Cài đặt JudgeDesk
 
-Chỉ tải JudgeDesk từ trang [Releases chính thức](https://github.com/ducminh25/judgedesk/releases).
+Tải các bản phát hành chính thức tại [GitHub Releases](https://github.com/ducminh25/judgedesk/releases).
 
 ## Windows 10/11 x64
 
-1. Mở release mới nhất và chọn một file:
-   - `JudgeDesk_..._full_x64_en-US.msi` (khuyến nghị cho phòng thi/lớp học,
-     có sẵn WebView2 và các managed toolchain đã duyệt).
-   - `JudgeDesk_..._core_x64_en-US.msi` (nhỏ hơn, có thể tải toolchain sau).
-2. Tải thêm `SHA256SUMS` trong cùng release.
-3. Kiểm tra checksum bằng PowerShell:
+1. Tải tệp cài đặt phù hợp từ trang release:
+   - `JudgeDesk_<version>_full_x64_en-US.msi`: Khuyến nghị cho phòng máy và lớp học. Tích hợp sẵn WebView2 Runtime và toàn bộ compiler/runtime quản lý.
+   - `JudgeDesk_<version>_core_x64_en-US.msi`: Gói rút gọn, cho phép tải toolchain sau qua giao diện.
+2. Tải tệp `SHA256SUMS` trong cùng mục release.
+3. Mở PowerShell trong thư mục chứa file và kiểm tra mã băm:
 
-   ```powershell
-   Get-FileHash .\JudgeDesk_*.msi -Algorithm SHA256
-   Get-Content .\SHA256SUMS
-   ```
+```powershell
+Get-FileHash .\JudgeDesk_*.msi -Algorithm SHA256
+Get-Content .\SHA256SUMS
+```
 
-4. Đối chiếu hai giá trị rồi chạy file MSI.
-5. Mở JudgeDesk và chọn cách cấu hình compiler/runtime ở màn hình đầu tiên.
+4. Chạy tệp `.msi` khi hai chuỗi SHA-256 khớp nhau.
+5. Mở ứng dụng và kiểm tra trạng thái compiler ở màn hình ban đầu.
 
-MSI v1.2.0 trở lên giữ nguyên mã nâng cấp của ThemisV2. Nếu máy đã cài ThemisV2
-1.1.3/1.1.4 hoặc các bản JudgeDesk cũ, bộ cài sẽ nâng cấp ứng dụng hiện có thay
-vì tạo một bản cài song song. Dữ liệu và toolchain hiện có được giữ nguyên.
+Gói cài đặt tự động nâng cấp nếu trên máy đã có phiên bản JudgeDesk trước đó, giữ nguyên dữ liệu kỳ thi và cấu hình toolchain hiện tại.
 
-Nếu Windows hiển thị cảnh báo nhà phát hành, không tiếp tục nếu file không đến
-từ repo này hoặc checksum không khớp.
+## macOS Apple Silicon (M1/M2/M3/M4)
 
-## Cập nhật trong JudgeDesk từ v1.3.4
+JudgeDesk hỗ trợ macOS 11 trở lên trên kiến trúc Apple Silicon (ARM64).
 
-Khi tìm thấy phiên bản mới, bấm nút Updater rồi chọn **Core** hoặc **Full**.
-JudgeDesk đánh dấu edition đang dùng và cho biết dung lượng tải/cài đặt:
+1. Tải bản cài đặt từ release:
+   - `JudgeDesk_<version>_full_aarch64.dmg`: Khuyến nghị, có sẵn runtime Python, Pascal và Java.
+   - `JudgeDesk_<version>_core_aarch64.dmg`: Gói rút gọn.
+2. Tải `SHA256SUMS` và xác minh qua Terminal:
 
-- Chọn đúng edition hiện tại để cập nhật bình thường; không có thêm cảnh báo.
-- Chọn edition khác để xem trước thay đổi toolchain rồi xác nhận hoặc hủy trước
-  khi tải.
-- Đóng JudgeDesk sau khi tải nhưng trước khi cài sẽ bỏ gói đã tải. Lần sau có
-  thể tải lại; dữ liệu kỳ thi và cấu hình compiler không bị xóa.
-- Updater luôn dùng release mới nhất. Không cần cài lần lượt các phiên bản đã bỏ
-  qua.
+```bash
+shasum -a 256 JudgeDesk_*.dmg
+cat SHA256SUMS
+```
 
-Các bản trước v1.3.4 chưa hiểu hai kênh Core/Full. Hãy cài v1.3.4 thủ công một
-lần từ trang Releases; từ đó các lần cập nhật tiếp theo dùng luồng trên.
+3. Mở tệp `.dmg` và kéo biểu tượng JudgeDesk vào thư mục Applications.
+4. Mở ứng dụng từ Launchpad hoặc Applications.
 
-## macOS Apple Silicon
+Trường hợp Gatekeeper hiển thị cảnh báo ứng dụng chưa xác minh danh tính lập trình viên, vào **System Settings → Privacy & Security**, tìm thông báo về JudgeDesk và chọn **Open Anyway**.
 
-JudgeDesk hỗ trợ macOS 11 trở lên trên máy Apple Silicon (dòng M).
+## Cập nhật phiên bản từ v1.3.4
 
-1. Mở release mới nhất và tải `JudgeDesk_<version>_full_aarch64.dmg` (khuyến
-   nghị, có sẵn các runtime managed) hoặc
-   `JudgeDesk_<version>_core_aarch64.dmg` (nhỏ hơn, tải runtime sau).
-2. Tải `SHA256SUMS`, sau đó kiểm tra trong Terminal:
+Ứng dụng kiểm tra phiên bản mới tự động qua nút Updater trên thanh công cụ.
 
-   ```bash
-   shasum -a 256 JudgeDesk_*.dmg
-   cat SHA256SUMS
-   ```
+Khi có bản mới, ứng dụng hiển thị bảng so sánh giữa hai bản Core và Full:
+- Bản đang chạy được gắn nhãn nhận diện kèm dung lượng tải về cụ thể.
+- Cập nhật cùng phân phối (Core lên Core, Full lên Full) sẽ tải và cài đặt ngay, giữ nguyên các tùy chỉnh đường dẫn compiler.
+- Chuyển đổi giữa Core và Full hiển thị thông báo xác nhận thay đổi cấu hình toolchain trước khi tải.
 
-3. Mở DMG và kéo JudgeDesk vào thư mục Applications.
-4. Mở JudgeDesk từ Applications.
+## Quản lý trình biên dịch và runtime
 
-Nếu Gatekeeper chặn ứng dụng, chỉ dùng **System Settings → Privacy & Security →
-Open Anyway** sau khi đã xác minh checksum và nguồn tải. Không chạy các lệnh xóa
-quarantine lấy từ nguồn không tin cậy.
+Hệ thống hỗ trợ C++, C, Python, Pascal và Java. Mỗi ngôn ngữ được thiết lập nguồn thực thi độc lập:
 
-## Compiler và runtime
-
-JudgeDesk v1.3 hỗ trợ C++, C, Python, Pascal và Java. Trong **Quản lý Trình biên
-dịch & Runtimes**, mỗi ngôn ngữ có một nguồn cố định:
-
-- `None`: tắt ngôn ngữ đó.
-- `Managed by toolchain`: dùng gói đi kèm bản Full hoặc do JudgeDesk tải về.
-- `Local (path)`: dùng đường dẫn do người dùng chọn.
-- `Local (auto-detect)`: dùng compiler/runtime được phát hiện nhanh trên máy.
-
-Windows Full kèm GCC cho C/C++, CPython, Free Pascal và Temurin Java. macOS Full
-kèm CPython, Free Pascal và Temurin Java; C/C++ dùng Apple Clang từ Xcode
-Command Line Tools. Nguồn không khả dụng sẽ không âm thầm fallback sang nguồn
-khác.
-
-Chế độ local ít cô lập hơn chỉ hoạt động khi người dùng chủ động bật trong
-Advanced và không nên là lựa chọn mặc định cho máy thi.
+- **Gói quản lý (Managed):** Tích hợp sẵn trong bản Full hoặc tải về từ kho lưu trữ chính thức đối với bản Core. Các gói chạy trong sandbox cách ly cao.
+- **Trình biên dịch trên máy (Local):** Ứng dụng tự động phát hiện compiler có sẵn trong `PATH` hoặc qua đường dẫn chỉ định thủ công. Nguồn local chỉ được kích hoạt khi vượt qua bài kiểm tra tương thích.
 
 ## Gỡ cài đặt
 
-- Windows: **Settings → Apps → Installed apps → JudgeDesk → Uninstall**.
-- macOS: xóa JudgeDesk khỏi Applications.
+- **Windows:** Vào **Settings → Apps → Installed apps**, tìm **JudgeDesk** và chọn **Uninstall**.
+- **macOS:** Kéo ứng dụng JudgeDesk từ thư mục Applications vào Trash.
 
-Dữ liệu toolchain được quản lý nằm trong thư mục dữ liệu ứng dụng của người dùng
-và có thể gỡ ngay trong màn hình quản lý Tools trước khi gỡ app.
+Dữ liệu toolchain và cấu hình người dùng được lưu trong thư mục `%LOCALAPPDATA%\ThemisV2` (Windows) hoặc `~/Library/Application Support/ThemisV2` (macOS). Có thể xóa trực tiếp trong mục Quản lý Toolchain trước khi gỡ ứng dụng.

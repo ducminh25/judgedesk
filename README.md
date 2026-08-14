@@ -1,51 +1,30 @@
 # JudgeDesk
 
-Đây là repository công khai chính thức của JudgeDesk, ứng dụng desktop chấm bài
-lập trình dành cho kỳ thi và lớp học. Repository này cung cấp bộ cài, checksum,
-updater manifest, managed toolchain, hướng dẫn sử dụng và kênh hỗ trợ người
-dùng. Mã nguồn ứng dụng không được phân phối trong repository này.
+JudgeDesk là ứng dụng desktop chấm bài lập trình cục bộ phục vụ các kỳ thi và lớp học, chạy trên Windows x64 và macOS Apple Silicon (ARM64). Ứng dụng hoạt động offline, hỗ trợ bảng điểm trực tiếp, cấu hình nhóm test, giao diện sáng/tối cùng hai ngôn ngữ giao diện tiếng Việt và tiếng Anh.
 
-## Tải xuống
+Repository này cung cấp các bản cài đặt chính thức, mã kiểm tra SHA-256, manifest cập nhật, managed toolchain và tài liệu hướng dẫn sử dụng. Mã nguồn nội bộ không được phân phối tại repository này.
 
-- [Releases](https://github.com/ducminh25/judgedesk/releases)
-- [Thay đổi trong v1.3.4](CHANGELOG.md)
-- [Hướng dẫn cài đặt](INSTALL.md)
-- [Managed toolchains](TOOLCHAINS.md)
-- [Hỗ trợ và báo lỗi](SUPPORT.md)
-- [Chính sách bảo mật](SECURITY.md)
+## Tải xuống và Cài đặt
 
-## JudgeDesk v1.3.4
+- **[Releases](https://github.com/ducminh25/judgedesk/releases)**: Tải bộ cài đặt `.msi` (Windows) hoặc `.dmg` (macOS).
+- **[INSTALL.md](INSTALL.md)**: Hướng dẫn cài đặt, xác minh mã băm SHA-256 và luồng cập nhật Core/Full.
+- **[TOOLCHAINS.md](TOOLCHAINS.md)**: Danh mục trình biên dịch/runtime (GCC 14.2, CPython 3.12, Free Pascal 3.2.2, Temurin OpenJDK 21) và cờ biên dịch chuẩn.
+- **[CHANGELOG.md](CHANGELOG.md)**: Lịch sử thay đổi chi tiết theo từng phiên bản.
+- **[SUPPORT.md](SUPPORT.md)**: Hướng dẫn báo lỗi và gửi phản hồi kỹ thuật.
+- **[SECURITY.md](SECURITY.md)**: Chính sách bảo mật và báo cáo lỗ hổng an toàn.
 
-JudgeDesk phát hành cho Windows 10/11 x64 và macOS Apple Silicon với hai lựa
-chọn:
+## Bản phân phối Core và Full
 
-- **Full (khuyến nghị):** Windows cài sẵn managed toolchain cho C++, C, Python,
-  Pascal và Java; macOS cài sẵn Python, Pascal và Java, đồng thời dùng Apple
-  Clang từ Xcode Command Line Tools cho C/C++. Windows Full còn kèm WebView2
-  offline.
-- **Core:** bộ chấm gọn hơn, cho phép tải managed toolchain từ JudgeDesk sau khi
-  cài hoặc dùng compiler/runtime local đã qua kiểm tra nhanh.
+Bản **Full** tích hợp sẵn toàn bộ trình biên dịch và runtime do ứng dụng quản lý. Trên Windows, gói cài đặt chứa cả WebView2 runtime offline. Trên macOS, bản Full đi kèm Python, FPC và Java, riêng C/C++ sử dụng Apple Clang từ Xcode Command Line Tools. Đây là bản phù hợp cho phòng thi, máy giáo viên và môi trường không có kết nối mạng.
 
-Trên macOS, C/C++ sử dụng Apple Clang tương thích từ Xcode Command Line Tools;
-Full tích hợp Python, Free Pascal và Java dành cho Apple Silicon. Core và Full
-dùng chung dữ liệu/application identity nên không cài song song; cài một bản sẽ
-nâng cấp hoặc thay thế bản còn lại.
+Bản **Core** chỉ gồm phần mềm chấm thi. Người dùng có thể tải thêm các gói compiler đã ký từ giao diện hoặc chọn compiler có sẵn trên máy sau khi ứng dụng kiểm tra độ tương thích.
 
-v1.3.3 cải thiện độ phản hồi khi khởi động Native protection, chấm kỳ thi lớn,
-cuộn bảng điểm và xử lý kỳ thi/Excel. Nút **Xuất file Excel** dùng được ngay khi
-có ít nhất một thí sinh hoặc một bài; dữ liệu chưa chấm được để trống. Trên
-Windows có Microsoft Excel, JudgeDesk mở workbook mới chưa lưu để thao tác
-`Ctrl+S` hoặc đóng file luôn đi qua Save As.
+Cả hai bản dùng chung định danh ứng dụng và vị trí lưu trữ dữ liệu. Khi có bản cập nhật mới, ứng dụng hiển thị cả hai tùy chọn Core và Full kèm dung lượng tải về để người dùng quyết định trực tiếp.
 
-Từ v1.3.4, khi có phiên bản mới, nút **Updater** hiển thị cả Core và Full, đánh
-dấu edition đang dùng và cho biết dung lượng tải/cài đặt. Cập nhật cùng edition
-bắt đầu ngay; khi đổi Core ↔ Full, JudgeDesk giải thích ảnh hưởng tới toolchain
-và hỏi xác nhận trước khi tải. Cấu hình compiler/runtime tùy chỉnh tiếp tục được
-giữ nguyên khi cập nhật cùng edition.
+## Hỗ trợ 5 ngôn ngữ thi đấu
 
-v1.3.4 là mốc bắt đầu updater Core/Full mới. Người dùng bản cũ cần tải và cài
-v1.3.4 thủ công một lần; các lần sau có thể chọn edition ngay trong app. Nút cốc
-cà phê mới chỉ mở trang QR ủng hộ sau khi người dùng xác nhận.
-
-Chỉ tải artifact từ trang Releases của repository này và đối chiếu checksum
-được phát hành cùng phiên bản trước khi cài đặt.
+- **C++ (C++14):** GCC 14.2.0 (Windows) / Apple Clang (macOS).
+- **C (C11):** GCC 14.2.0 (Windows) / Apple Clang (macOS).
+- **Python:** CPython 3.12.13.
+- **Pascal:** Free Pascal 3.2.2.
+- **Java:** Eclipse Temurin OpenJDK 21.0.12+8.
