@@ -20,7 +20,7 @@ Get-Content .\SHA256SUMS
 
 Gói cài đặt tự động nâng cấp nếu trên máy đã có phiên bản JudgeDesk trước đó, giữ nguyên dữ liệu kỳ thi và cấu hình toolchain hiện tại.
 
-## macOS Apple Silicon
+## macOS Apple Silicon (M1/M2/M3/M4)
 
 JudgeDesk hỗ trợ macOS 11 trở lên trên kiến trúc Apple Silicon (ARM64).
 
@@ -39,21 +39,20 @@ cat SHA256SUMS
 
 Trường hợp Gatekeeper hiển thị cảnh báo ứng dụng chưa xác minh danh tính lập trình viên, vào **System Settings → Privacy & Security**, tìm thông báo về JudgeDesk và chọn **Open Anyway**.
 
-## Cập nhật phiên bản từ v1.3.4
+## Cập nhật phiên bản và chuyển đổi giữa Core / Full
 
-Ứng dụng kiểm tra phiên bản mới tự động qua nút Updater trên thanh công cụ.
+Ứng dụng kiểm tra phiên bản mới tự động qua nút **Cập nhật (Updater)** trên thanh công cụ:
+- **Tự động cập nhật qua Updater (In-App)**: Luôn tải gói cập nhật ứng dụng cốt lõi siêu nhẹ (~20MB), giữ nguyên toàn bộ toolchain đã có sẵn mà không phải tải lại 800MB compiler qua mạng.
+- **Chuyển từ Core sang Full**: Có 2 cách thuận tiện:
+  1. *Cách 1 (In-App)*: Vào tab **Quản lý Toolchain (Toolchains)** và bấm **Tải về** các ngôn ngữ mong muốn (lưu tại `%LOCALAPPDATA%\ThemisV2\toolchains`).
+  2. *Cách 2 (Cài đặt đè)*: Tải và chạy file `JudgeDesk_<version>_full_*.msi` mới nhất từ GitHub Releases để cài đặt trọn bộ compiler vào thư mục ứng dụng (tự động nhận diện và dọn sạch các bản sao trùng lặp trong AppData nếu có).
 
-Khi có bản mới, ứng dụng hiển thị bảng so sánh giữa hai bản Core và Full:
-- Bản đang chạy được gắn nhãn nhận diện kèm dung lượng tải về cụ thể.
-- Cập nhật cùng phân phối (Core lên Core, Full lên Full) sẽ tải và cài đặt ngay, giữ nguyên các tùy chỉnh đường dẫn compiler.
-- Chuyển đổi giữa Core và Full hiển thị thông báo xác nhận thay đổi cấu hình toolchain trước khi tải.
+## Quản lý trình biên dịch và lưu trữ
 
-## Quản lý trình biên dịch và runtime
-
-Hệ thống hỗ trợ C++, C, Python, Pascal và Java. Mỗi ngôn ngữ được thiết lập nguồn thực thi độc lập:
-
-- **Gói quản lý (Managed):** Tích hợp sẵn trong bản Full hoặc tải về từ kho lưu trữ chính thức đối với bản Core. Các gói chạy trong sandbox cách ly cao.
-- **Trình biên dịch trên máy (Local):** Ứng dụng tự động phát hiện compiler có sẵn trong `PATH` hoặc qua đường dẫn chỉ định thủ công. Nguồn local chỉ được kích hoạt khi vượt qua bài kiểm tra tương thích.
+Hệ thống hỗ trợ 6 ngôn ngữ: C++, C, Python, Pascal, Java và Scratch (.sb3, .sb2, .sb):
+- **Bản Full (Đóng gói sẵn)**: Chứa sẵn bộ compiler/runtime trong thư mục cài đặt ứng dụng (`resources/toolchains`), dùng trực tiếp (Zero-Copy), khởi động tức thì và dùng chung an toàn cho mọi tài khoản trên máy.
+- **Bản Core (Tải thêm theo nhu cầu)**: Các gói tải về từ kho lưu trữ chính thức được lưu tại `%LOCALAPPDATA%\ThemisV2\toolchains` (Windows) hoặc `~/Library/Application Support/ThemisV2/toolchains` (macOS).
+- **Trình biên dịch trên máy (Local)**: Ứng dụng tự động phát hiện compiler có sẵn trong `PATH` hoặc qua đường dẫn chỉ định thủ công nếu vượt qua kiểm tra an toàn.
 
 ## Gỡ cài đặt
 
