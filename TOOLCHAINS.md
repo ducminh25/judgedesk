@@ -47,7 +47,20 @@ Thiết lập biên dịch mặc định giữ tính tương thích với Themis
 - **Python:** Chạy trực tiếp qua trình thông dịch Python được chỉ định.
 - **Scratch:** Chạy trực tiếp qua máy ảo Scratch Headless. Dữ liệu vào được cấp qua khối `ask and wait`, dữ liệu ra thu thập từ khối `say` (kèm ký tự xuống dòng) và `think` (không kèm ký tự xuống dòng). Chế độ Turbo Mode được bật mặc định để tối ưu tốc độ.
 
-## Cơ chế phát hiện trình biên dịch cục bộ (Local)
+## Universal Precompiled Header C++ (`bits/stdc++.h.gch`)
+
+Từ phiên bản v1.5.0, JudgeDesk tự động khởi tạo và tái sử dụng bộ nhớ đệm Precompiled Header (PCH) đa năng cho mọi trình biên dịch C++ (Managed GCC, MinGW-w64, MSYS2 UCRT64, Apple Clang):
+- **Cơ chế băm nhận diện**: Tạo mã băm 16-hex dựa trên đường dẫn tệp thực thi chuẩn hoá, kích thước tệp, thời gian sửa đổi (`mtimeMs`) và chuỗi đầu ra phiên bản (`compiler -v` / `--version`).
+- **Tăng tốc biên dịch vượt trội**: Giảm thời gian biên dịch các bài thi C++ nạp `<bits/stdc++.h>` từ ~3.6s xuống chỉ còn ~0.23s (tăng tốc gấp ~16.5 lần).
+- **Làm ấm ngầm (Background Judge Pre-warm)**: Tự động nạp sẵn PCH và khởi tạo môi trường sandbox ngay khi mở ứng dụng, sẵn sàng chấm tức thì mà không có độ trễ ở lần chấm đầu tiên.
+
+## Giới hạn tài nguyên thực thi
+
+- **Giới hạn bộ nhớ (Memory Limit)**: Hỗ trợ cấu hình từ **8 MB đến 1024 MB (1 GB)** cho mỗi bài toán (mặc định 256 MB theo chuẩn các kỳ thi Olympic Tin học / HSG / ICPC).
+- **Giới hạn thời gian (Time Limit)**: Hỗ trợ từ 100 ms đến 15000 ms với đồng hồ CPU microsecond trong Native Sandbox.
+- **Cô lập an toàn**: 100% kết nối mạng bị chặn (`0-network invariant`), cách ly không gian tệp tạm thời.
+
+## Cơ chế phát hiện trình biên dịch cục bộ (Local) & Tự động di trú chính sách
 
 Khi khởi động lần đầu, ứng dụng quét nhanh các biến môi trường `PATH` và các thư mục cài đặt tiêu chuẩn để phát hiện compiler có sẵn. Quá trình quét giới hạn trong vài giây, không duyệt toàn bộ ổ đĩa.
 
@@ -56,6 +69,8 @@ Mỗi ngôn ngữ có 4 trạng thái cấu hình:
 - `Managed`: Dùng gói tải về có chữ ký của JudgeDesk.
 - `Local (auto-detect)`: Dùng compiler hệ thống được tự động phát hiện.
 - `Local (path)`: Dùng đường dẫn thực thi do người dùng chỉ định thủ công.
+
+Hệ thống tự động di trú các chính sách cấu hình cũ sang chuẩn bảo mật mới (`migrateLegacyExecutionPolicy`), loại bỏ các bảng cài đặt phức tạp không cần thiết.
 
 Trình biên dịch cục bộ phải đáp ứng các bài kiểm tra thực thi an toàn của hệ điều hành trước khi được chấp nhận chấm bài.
 

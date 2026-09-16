@@ -29,3 +29,14 @@ Cả hai bản dùng chung định danh ứng dụng và vị trí lưu trữ d�
 - **Pascal:** Free Pascal 3.2.2.
 - **Java:** Eclipse Temurin OpenJDK 21.0.12+8.
 - **Scratch:** TurboWarp VM / scratch-run 0.1.7 (`.sb3`, `.sb2`, `.sb`).
+
+## Điểm Nổi Bật Trên Phiên Bản v1.5.0
+
+- **Universal Precompiled Header C++ (`bits/stdc++.h.gch`)**: Tự động sinh và cache PCH cho mọi compiler C++ (Managed GCC, MinGW-w64, MSYS2 UCRT64, Apple Clang), tăng tốc độ biên dịch gấp ~16.5 lần (từ ~3.6s xuống chỉ còn ~0.23s).
+- **Chấm Bài Thi Tương Tác (Interactive Problems & Interactor)**: Runner chấm tương tác độc quyền qua Win32 AppContainer dual-job runner với hai đường ống ẩn danh hai chiều (bidirectional anonymous pipes). Hỗ trợ interactor viết bằng C++ (`testlib.h`) hoặc Python.
+- **Chấm Điểm Phân Số Chính Xác Tuyệt Đối (Rational Scoring Engine)**: Tính toán điểm qua phân số tối giản (GCD) triệt tiêu hoàn toàn sai số trôi số thực IEEE 754 trên bảng điểm và xuất Excel.
+- **Giới Hạn Bộ Nhớ Lên Đến 1024 MB**: Hỗ trợ Memory Limit từ 8 MB đến 1024 MB (1 GB) trên cả Windows và macOS, mặc định 256 MB chuẩn Olympic / HSG / ICPC.
+- **Chấm Thi Scratch Hoàn Thiện Tuyệt Đối**: Runner `scratch-run` (VNOI / TurboWarp VM) tích hợp sẵn, nạp test qua `ask and wait` và xuất kết quả qua `say`/`think`, cô lập an toàn trong Windows Job Objects / macOS Seatbelt.
+- **Làm Ấm Sandbox Ngầm (Background Judge Pre-warm)**: Khởi động nền làm nóng môi trường thực thi và compiler ngay khi mở ứng dụng, loại bỏ độ trễ chấm lần đầu.
+- **Cập Nhật 1-Chạm Siêu Tốc & Nút Ủng Hộ (Donation)**: Nút cập nhật trực tiếp trên thanh công cụ với tiến trình tải Core ngầm (~20MB) và khởi động lại một chạm; bổ sung nút ủng hộ / mời cà phê thân thiện.
+- **Bộ Nhận Diện Thương Hiệu Mới**: Logo và bộ icon ứng dụng mới hiện đại, sắc nét trên cả Windows và macOS.

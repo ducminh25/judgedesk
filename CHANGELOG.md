@@ -5,6 +5,70 @@ Versioning; các bản `1.x` giữ tương thích updater và dữ liệu ứng 
 
 ## [Unreleased]
 
+## [1.5.0] - 2026-09-16
+
+### Universal Precompiled Header C++, Tự Động Di Trú Chính Sách & Cải Tiến Updater
+
+- **Universal Precompiled Header (`bits/stdc++.h.gch`) cho Trình biên dịch C++**:
+  - Tự động phát hiện và sinh bộ nhớ đệm Precompiled Header đa năng cho mọi trình biên dịch C++ (Managed GCC, MinGW-w64, MSYS2 UCRT64, Apple Clang).
+  - Áp dụng bộ băm định danh compiler siêu nhạy theo đường dẫn chuẩn hoá (canonical path), dung lượng tệp, mtime và mã hash phiên bản để tái sử dụng an toàn và làm mới cache đúng lúc.
+  - Tăng tốc độ biên dịch các bài thi C++ nạp `<bits/stdc++.h>` vượt trội trên mọi nền tảng.
+- **Tự động chuyển đổi Chính sách Thực thi (Toolchain Execution Policy Migration)**:
+  - Tự động di trú chính sách thực thi toolchain cũ (`migrateLegacyExecutionPolicy`) sang cấu hình bảo mật chuẩn một cách minh bạch, an toàn và không gây gián đoạn cho người dùng.
+- **Tinh gọn Giao diện Quản lý Trình biên dịch (`F6 Toolchain Manager`)**:
+  - Loại bỏ bảng "Nâng cao" không cần thiết và danh sách phiên bản thử nghiệm phức tạp, mang lại trải nghiệm cấu hình trực quan, tập trung vào các chế độ nguồn thực thi đã chứng nhận.
+- **Cải tiến Trình Cập nhật Ứng dụng & Nút Ủng hộ (In-App Updater & Donation Toolbar)**:
+  - Tích hợp nút cập nhật ứng dụng nổi bật trên thanh công cụ với tiến trình tải Core ngầm và nút khởi động lại một chạm để áp dụng.
+  - Luôn áp dụng bản Core nhất quán dù trước đó cài bản Full hay Core, bảo lưu 100% các tuỳ chọn người dùng và đường dẫn compiler đã thiết lập.
+  - Bổ sung nút mời cà phê / donate tiện lợi và thân thiện trên thanh công cụ.
+- **Bộ Nhận diện Thương hiệu & Biểu tượng Mới (Brand Identity & Icons)**:
+  - Cập nhật logo và bộ biểu tượng ứng dụng mới sắc nét trên cả Windows và macOS, mang lại diện mạo hiện đại và chuyên nghiệp cho JudgeDesk.
+
+## [1.4.46] - 2026-09-04
+
+### Bài Tương Tác (Interactive), Chấm Điểm Phân Số & Tối Ưu Tốc Độ Khởi Động
+
+- **Hỗ trợ bài thi tương tác (Interactive Problems & Interactor)**: Tích hợp runner chấm bài thi tương tác trên Windows qua cơ chế Win32 AppContainer dual-job runner với hai đường ống ẩn danh hai chiều (bidirectional anonymous pipes). Hỗ trợ biên dịch và thực thi Interactor viết bằng C++ (hỗ trợ `testlib.h` chuẩn Codeforces/Polygon) hoặc Python. Hỗ trợ nạp bộ testcase bài tương tác chỉ chứa file dữ liệu vào (`.inp`) mà không bắt buộc có file kết quả mẫu (`.out`).
+- **Công cụ chấm điểm phân số chính xác tuyệt đối (Rational Scoring Engine)**: Triệt tiêu hoàn toàn hiện tượng sai số trôi dấu phẩy động IEEE 754 trong tính điểm và tổng điểm (hỗ trợ phân số tối giản như `1/3`, `2/3`, `0.35 * 10 = 3.5`). Tính toán và cộng dồn điểm chính xác dạng số hữu tỉ tối giản qua ước chung lớn nhất (GCD), đồng bộ định dạng điểm trên Scoreboard và xuất file Excel.
+- **Tối ưu tốc độ khởi động & loại bỏ độ trễ warm-up 10–13s**:
+  - Tự động sinh và nạp Precompiled Header (`bits/stdc++.h.gch`) với cờ chuẩn C++14 (`-std=c++14 -O2 -pipe`), tăng tốc độ biên dịch C++ gấp ~16.5 lần (từ ~3.6s xuống ~0.23s).
+  - Cơ chế Background Judge Pre-warm chạy ngầm ngay khi khởi động ứng dụng để nạp sẵn Managed GCC, khởi tạo kênh giao tiếp và làm nóng sandbox trước khi người dùng bấm Chấm bài.
+  - Thiết lập cơ chế bắt tay đồng bộ giữa phiên chấm và tiến trình pre-warm để đảm bảo không xung đột tài nguyên.
+- **Cải tiến giao diện & Sửa lỗi đồng bộ cấu hình**:
+  - Cải tiến cửa sổ tiến trình: giữ thanh tiến trình ở trạng thái chờ mượt mà trong giai đoạn chuẩn bị hệ thống, hiển thị phần trăm chuẩn xác từ bài thi đầu tiên.
+  - Bản địa hóa toàn diện tiếng Việt cho các thông báo trạng thái chấm.
+  - Sửa lỗi không lưu cờ Interactive vào `Config.cfg` và sửa lỗi không tải testcase bài tương tác trong cửa sổ Cài đặt bài tập.
+
+## [1.4.45] - 2026-08-31
+
+### Nâng giới hạn Bộ nhớ 1024 MB & Tối ưu Trình biên dịch
+
+- Hỗ trợ cấu hình giới hạn bộ nhớ (Memory Limit) lên đến 1024 MB (1 GB) trên cả Windows và macOS, mặc định 256 MB theo tiêu chuẩn các kỳ thi Olympic Tin học / HSG / ICPC.
+- Mở rộng chính sách tài nguyên bộ nhớ trên Windows từ 512 MB lên 1024 MB cho các tiến trình chấm và biên dịch.
+- Tối ưu hóa khâu chuẩn bị tệp nguồn và đối tượng biên dịch (Compiler Staging), đảm bảo định danh tệp an toàn và xử lý sạch sẽ các ký tự đặc biệt / phần mở rộng.
+- Rút gọn token UUID trong chẩn đoán hệ thống (Diagnostics) giúp tăng tốc độ kiểm tra tự động và duy trì tính ổn định cao.
+- Cập nhật giao diện Cài đặt bài thi và bảng dịch đa ngôn ngữ (Tiếng Việt & Tiếng Anh).
+
+## [1.4.44] - 2026-08-29
+
+### Hoàn thiện tuyệt đối Chấm thi Scratch trên Windows & macOS
+
+- Khắc phục triệt để lỗi khởi tạo runtime `0xC0000142` (`STATUS_DLL_INIT_FAILED`) trên Windows Sandbox bằng cơ chế cách ly an toàn `ResourceOnly` qua Windows Job Object, kiểm soát chặt chẽ giới hạn thời gian (Time Limit), bộ nhớ (Memory Limit), số lượng tiến trình và luồng I/O.
+- Tương thích hoàn chỉnh cơ chế sandbox Apple Seatbelt & Run Guardian trên macOS.
+- Đưa `scratch-windows-x64` và `scratch-macos-arm64` vào bản kê phân phối chính thức có chữ ký số Ed25519 (`toolchains-manifest.json`), loại bỏ hoàn toàn hiện tượng Scratch bị chuyển về `Not available` sau khi người dùng cập nhật ứng dụng.
+- Cập nhật schema chuẩn Scratch 3.0 cho chẩn đoán tự động (Diagnostics) và self-test probe.
+- Đồng bộ hiển thị badge phiên bản động và xác thực chấm thi thành công 100% với các bộ đề thi Tin học trẻ thực tế.
+
+## [1.4.43] - 2026-08-29
+
+### Tích hợp chính thức scratch-run (VNOI) & Hoàn thiện giao diện
+
+- Tích hợp runner chuẩn `scratch-run` của VNOI (VNOI-Admin / Lê Bảo Hiệp) xây dựng trên TurboWarp `scratch-vm`, giải quyết triệt để lỗi `TOOLCHAIN_NOT_SANDBOX_COMPATIBLE` và đảm bảo tương thích 100% với các kỳ thi Tin học trẻ.
+- Bổ sung gói toolchain Scratch vào bản Full Edition tự động kích hoạt theo mặc định và hỗ trợ tải về tự động trong bản Core Edition.
+- Tối ưu thanh công cụ: Loại bỏ nút Sắp xếp điểm trên Toolbar để giao diện gọn gàng (vẫn giữ nút sắp xếp cạnh tiêu đề Tổng điểm trên Scoreboard).
+- Tinh chỉnh nút Updater: Hiển thị trạng thái «Đã mới nhất» ngắn gọn, nổi bật khi có bản cập nhật mới.
+- Thêm Scratch vào chẩn đoán hệ thống (Diagnostics) và ghi nhận credit chính thức cho VNOI-Admin trong Trung tâm hướng dẫn.
+
 ## [1.4.42] - 2026-08-29
 
 ### Bản sửa lỗi nhanh (Hotfix) cho v1.4.4
