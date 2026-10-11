@@ -5,6 +5,17 @@ Versioning; các bản `1.x` giữ tương thích updater và dữ liệu ứng 
 
 ## [Unreleased]
 
+## [1.5.6] - 2026-10-11
+
+### Initial release for Linux
+
+- **Hệ thống hỗ trợ ban đầu:** Ubuntu 24.04 LTS trên máy Intel/AMD 64-bit (`amd64`/`x86_64`). Sandbox đã được kiểm chứng với kernel GA 6.8 trong VM dùng cấu hình boot riêng của lab; boot mặc định còn cần kiểm chứng.
+- **Bộ cài:** bản Core `JudgeDesk_1.5.6_core_amd64.deb`, cài qua APT. Cần Internet để tải các dependency và compiler/runtime chưa có; Linux chưa có bản Full hoặc repository APT riêng.
+- **Ngôn ngữ:** C++, C với GCC 13 và Python với CPython 3.12. Người dùng chọn đường dẫn compiler/runtime có sẵn; app kiểm tra compatibility, không tự fallback và giữ các lựa chọn cá nhân qua cập nhật.
+- **Luồng chấm:** bổ sung sandbox Linux cách ly file/mạng và giới hạn tài nguyên; giữ điểm phân số, bảng điểm, lưu/mở contest `.judgedesk` và xuất Excel.
+- **Phạm vi:** Linux ARM64/32-bit, các distro khác, Pascal/Java/Scratch và bài tương tác chưa được hỗ trợ ở đợt đầu. Ubuntu Desktop/Wayland, HWE và máy thật cần thêm kiểm chứng. Không yêu cầu người dùng tắt cơ chế bảo mật của hệ điều hành để cài JudgeDesk.
+- Xem [hướng dẫn cài đặt Linux](INSTALL.md) để cài đặt, cấu hình và báo lỗi.
+
 ## [1.5.0] - 2026-09-16
 
 ### Universal Precompiled Header C++, Tự Động Di Trú Chính Sách & Cải Tiến Updater
