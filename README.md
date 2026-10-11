@@ -37,7 +37,7 @@ Phạm vi ban đầu: **Ubuntu 24.04 LTS amd64/x86_64**, máy Intel/AMD 64 bit, 
 
    APT sẽ tải dependencies cần thiết từ Ubuntu. `./` cho biết đây là file local; hiện chưa có APT repository riêng của JudgeDesk. Khi `sudo` hỏi mật khẩu, Terminal không hiện ký tự đang gõ.
 
-4. Mở **JudgeDesk** từ menu ứng dụng bằng tài khoản bình thường. Trong cấu hình compiler/runtime, chọn **Local** và đặt C++ là `/usr/bin/g++-13`, C là `/usr/bin/gcc-13`, Python là `/usr/bin/python3.12`. Chạy kiểm tra compatibility cho cả ba; chỉ chấm khi compiler và sandbox đều sẵn sàng. Không mở app bằng `sudo`.
+4. Mở **JudgeDesk** từ menu ứng dụng bằng tài khoản bình thường. Chờ màn hình **Đang chuẩn bị bộ chấm** hoàn tất; lần đầu hoặc sau cập nhật có thể lâu hơn do tạo cache runtime. Trong cấu hình compiler/runtime, chọn **Local** và đặt C++ là `/usr/bin/g++-13`, C là `/usr/bin/gcc-13`, Python là `/usr/bin/python3.12`. Chạy kiểm tra compatibility cho cả ba; chỉ chấm khi compiler và sandbox đều sẵn sàng. Không mở app bằng `sudo`.
 5. Thử tạo/mở/lưu contest, chấm bài mẫu bằng ba ngôn ngữ, kiểm tra verdict/điểm và xuất Excel. Pascal, Java, Scratch và bài tương tác chưa được hỗ trợ trên Linux. Gửi phiên bản app, `lsb_release -ds`, `uname -r`, loại desktop và testcase tái hiện khi báo lỗi.
 
 Để nâng cấp thủ công, đóng app rồi chạy `sudo apt install ./JudgeDesk_<version>_core_amd64.deb` với file mới. Sau khi mở lại, kiểm tra version, ba đường dẫn đã lưu và compatibility. Cấu hình nằm trong `~/.local/share/ThemisV2/` hoặc `$XDG_DATA_HOME/ThemisV2/`; bộ cài/updater không sửa hoặc xóa thư mục này. Không nâng cấp compiler hệ thống trong khi đang chấm. Xem thêm [INSTALL.md](INSTALL.md).

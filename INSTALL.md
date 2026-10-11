@@ -54,7 +54,7 @@ Bản Linux đầu tiên dành cho máy Intel/AMD 64 bit (amd64/x86_64), dùng G
 
    Cần Internet khi APT tải dependencies chưa có. Đây là APT cài file local; chưa có APT repository riêng của JudgeDesk.
 
-3. Mở JudgeDesk từ menu ứng dụng bằng tài khoản bình thường. Không dùng `sudo` để chạy app và không tắt cơ chế bảo mật của Ubuntu.
+3. Mở JudgeDesk từ menu ứng dụng bằng tài khoản bình thường. Chờ **Đang chuẩn bị bộ chấm** hoàn tất; lần đầu hoặc sau cập nhật app cần xác minh và tạo cache runtime. Nếu app báo không thể khởi động bộ chấm, lưu log và báo lỗi. Không dùng `sudo` để chạy app và không tắt cơ chế bảo mật của Ubuntu.
 4. Trong cấu hình compiler/runtime, chọn Local: C++ `/usr/bin/g++-13`, C `/usr/bin/gcc-13`, Python `/usr/bin/python3.12`. Chạy compatibility cho từng lựa chọn và kiểm tra sandbox sẵn sàng trước khi chấm. Cấu hình không tương thích phải được sửa; app không tự đổi compiler.
 5. Thử contest mẫu C++, C và Python, lưu/mở lại contest, kiểm tra verdict/điểm và xuất Excel.
 
