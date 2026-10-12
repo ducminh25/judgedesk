@@ -2,7 +2,7 @@
 
 JudgeDesk là ứng dụng desktop chấm bài lập trình cục bộ phục vụ các kỳ thi và lớp học, chạy trên Windows x64, macOS Apple Silicon (ARM64) và, từ v1.5.6, Ubuntu 24.04 LTS x86_64 (Intel/AMD 64 bit). Ứng dụng hỗ trợ bảng điểm trực tiếp, cấu hình nhóm test, giao diện sáng/tối cùng hai ngôn ngữ giao diện tiếng Việt và tiếng Anh. Linux có bản Core cho C++, C và Python; cần Internet để APT tải các thư viện và compiler chưa có khi cài đặt.
 
-Repository này cung cấp các bản cài đặt chính thức, mã kiểm tra SHA-256, manifest cập nhật, managed toolchain và tài liệu hướng dẫn sử dụng. Mã nguồn nội bộ không được phân phối tại repository này.
+Repository này cung cấp các bản cài đặt chính thức, mã kiểm tra SHA-256, manifest cập nhật, managed toolchain và tài liệu hướng dẫn sử dụng. Mã nguồn được phân phối tại **[repository này](https://github.com/ducminh25/judgedesk-source)**.
 
 ## Tải xuống và Cài đặt
 
