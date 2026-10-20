@@ -1,65 +1,140 @@
 # JudgeDesk
 
-JudgeDesk là ứng dụng desktop chấm bài lập trình cục bộ phục vụ các kỳ thi và lớp học, chạy trên Windows x64, macOS Apple Silicon (ARM64) và, từ v1.5.6, Ubuntu 24.04 LTS x86_64 (Intel/AMD 64 bit). Ứng dụng hỗ trợ bảng điểm trực tiếp, cấu hình nhóm test, giao diện sáng/tối cùng hai ngôn ngữ giao diện tiếng Việt và tiếng Anh. Linux có bản Core cho C++, C và Python; cần Internet để APT tải các thư viện và compiler chưa có khi cài đặt.
+JudgeDesk là phần mềm desktop chấm bài lập trình cục bộ (offline) cho kỳ thi, đội tuyển và lớp học Tin học, chạy gốc (native) trên **Windows 10/11 x64**, **macOS Apple Silicon (`arm64`, macOS 11+)** và **Linux 64-bit (`x86_64` / `amd64` — từ Ubuntu 22.04 LTS, 24.04 LTS, 26.04 LTS+ và các bản phân phối tương thích)**.
 
-Repository này cung cấp các bản cài đặt chính thức, mã kiểm tra SHA-256, manifest cập nhật, managed toolchain và tài liệu hướng dẫn sử dụng. Mã nguồn được phân phối tại **[repository này](https://github.com/ducminh25/judgedesk-source)**.
+Ứng dụng hoạt động hoàn toàn độc lập với mạng Internet trong lúc chấm bài, hỗ trợ bảng điểm trực tiếp theo thời gian thực, cấu hình nhóm test (Subtasks), chấm bài thi tương tác (Interactive), chấm điểm phân số chính xác tuyệt đối, nhận bài qua thư mục mạng LAN (`F8` OSD), đóng gói kỳ thi `.judgedesk`, xuất bảng điểm Excel (`.xlsx`), giao diện Sáng/Tối cùng hai ngôn ngữ Tiếng Việt và Tiếng Anh.
 
-## Tải xuống và Cài đặt
+JudgeDesk hỗ trợ 6 ngôn ngữ lập trình: **C++, C, Python 3, Pascal (Free Pascal), Java (OpenJDK) và Scratch (`.sb3`, `.sb2`, `.sb`)**. Mã nguồn thí sinh được thực thi trong môi trường cách ly an toàn của từng hệ điều hành (Windows AppContainer + Job Objects, macOS Seatbelt + Run Guardian, Linux Bubblewrap + `cgroup v2` + `seccomp-bpf`) và không tự ý đổi sang trình biên dịch khác khi cấu hình lỗi.
 
-- **[Releases](https://github.com/ducminh25/judgedesk/releases)**: Tải bộ cài đặt `.msi` (Windows), `.dmg` (macOS) hoặc Core `.deb` (Ubuntu x86_64, từ v1.5.6 khi được công bố). Chọn file thuộc đúng release và hệ điều hành.
-- **[INSTALL.md](INSTALL.md)**: Hướng dẫn cài đặt, xác minh mã băm SHA-256 và luồng cập nhật Core/Full.
-- **[TOOLCHAINS.md](TOOLCHAINS.md)**: Danh mục trình biên dịch/runtime (GCC 14.2, CPython 3.12, Free Pascal 3.2.2, Temurin OpenJDK 21, Scratch Headless VM) và cờ biên dịch chuẩn.
-- **[CHANGELOG.md](CHANGELOG.md)**: Lịch sử thay đổi chi tiết theo từng phiên bản.
-- **[SUPPORT.md](SUPPORT.md)**: Hướng dẫn báo lỗi và gửi phản hồi kỹ thuật.
-- **[SECURITY.md](SECURITY.md)**: Chính sách bảo mật và báo cáo lỗ hổng an toàn.
+---
 
-## Bản phân phối Core và Full
+## Tải về và chọn bản cài đặt (từ v1.6.0)
 
-Bản **Full** tích hợp sẵn toàn bộ trình biên dịch và runtime do ứng dụng quản lý (GCC, CPython, Free Pascal, Eclipse Temurin OpenJDK, Scratch Headless VM). Trên Windows, gói cài đặt chứa cả WebView2 runtime offline. Trên macOS, bản Full đi kèm Python, FPC, Java và Scratch runtime, riêng C/C++ sử dụng Apple Clang từ Xcode Command Line Tools. Đây là bản phù hợp cho phòng thi, máy giáo viên và môi trường không có kết nối mạng.
+Tải bộ cài chính thức tại [GitHub Releases](https://github.com/ducminh25/judgedesk/releases).
 
-Bản **Core** chỉ gồm phần mềm chấm thi. Trên Windows/macOS, người dùng có thể tải thêm các gói compiler đã ký từ giao diện hoặc chọn compiler có sẵn trên máy sau khi ứng dụng kiểm tra độ tương thích. Linux đợt đầu dùng GCC 13 và CPython 3.12 từ Ubuntu qua các đường dẫn đã cấu hình; chưa có bản Full hoặc managed toolchain Linux.
+### Bảng tổng hợp các loại tệp cài đặt theo hệ điều hành
 
-Core/Full dùng chung định danh ứng dụng và vị trí lưu trữ dữ liệu trên từng hệ điều hành. Updater giữ cấu hình và đường dẫn compiler đã chọn; Linux tải bản Core `.deb` đã ký và hỏi quyền quản trị để cài đặt. Người dùng cũng có thể nâng cấp bằng APT với file `.deb` mới.
+| Hệ điều hành | Phiên bản hỗ trợ | Định dạng & Tên tệp cài đặt | Khuyến nghị & Đặc điểm |
+| :--- | :--- | :--- | :--- |
+| **Windows x64** | Windows 10, Windows 11 (64-bit) | `JudgeDesk_<version>_full_x64_en-US.msi`<br/>`JudgeDesk_<version>_core_x64_en-US.msi` | **Full** *(Khuyên dùng cho phòng thi)*: Có sẵn WebView2 Runtime offline và toàn bộ compiler/runtime (GCC 14, Python 3.12, Free Pascal, OpenJDK 21, Scratch VM).<br/>**Core**: Bản rút gọn, tự nhận diện compiler trên máy hoặc tải thêm gói ký số trong app. |
+| **macOS Apple Silicon** | macOS 11 Big Sur trở lên (`arm64` — M1/M2/M3/M4) | `JudgeDesk_<version>_full_aarch64.dmg`<br/>`JudgeDesk_<version>_core_aarch64.dmg` | **Full** *(Khuyên dùng)*: Đóng gói sẵn Python 3.12, Free Pascal, OpenJDK 21 và Scratch VM; C/C++ dùng Apple Clang (`xcode-select --install`).<br/>**Core**: Bản rút gọn dùng compiler hệ thống hoặc tải gói managed. |
+| **Linux x86_64 (`amd64`) — Ubuntu / Debian / Mint** | **Ubuntu 22.04 LTS, 24.04 LTS, 26.04 LTS+**<br/>Debian 12+, Linux Mint 21+, Pop!_OS 22.04+, Zorin OS 17+ *(GLIBC $\ge$ 2.34)* | `JudgeDesk_<version>_amd64.deb` *(Ưu tiên khuyên dùng)* | Cài đặt qua `sudo apt install ./JudgeDesk_<version>_amd64.deb`. Tự động kéo các gói phụ thuộc (`bubblewrap`, `zenity`, `g++`, `python3`, GTK3/WebKit2GTK) tương thích cả chuẩn thư viện cũ và `t64`. |
+| **Linux x86_64 (`amd64`) — Fedora / RHEL / openSUSE** | Fedora 38+, RHEL / AlmaLinux / Rocky 9+, openSUSE *(GLIBC $\ge$ 2.34)* | `JudgeDesk-<version>-1.x86_64.rpm` | Cài đặt qua `sudo dnf install ./JudgeDesk-<version>-1.x86_64.rpm` (hoặc `zypper` / `rpm`). |
+| **Linux x86_64 (`amd64`) — Portable / Distro khác** | Hầu hết các bản phân phối Linux 64-bit có `GLIBC >= 2.34` | `JudgeDesk_<version>_amd64.AppImage` | Tệp thực thi độc lập (`chmod +x` rồi chạy trực tiếp), không cần quyền root để cài đặt ứng dụng. |
 
-## Cài JudgeDesk trên Ubuntu
+### Bản Full, Bản Core và Cơ chế Cập nhật Tự động (In-App Updater)
 
-Phạm vi ban đầu: **Ubuntu 24.04 LTS amd64/x86_64**, máy Intel/AMD 64 bit, **GCC 13** cho C++/C và **CPython 3.12** cho Python. Sandbox đã được kiểm chứng với kernel GA 6.8 trong VM dùng cấu hình boot riêng của lab; boot mặc định, Ubuntu Desktop/Wayland, kernel HWE và máy thật cần thêm thử nghiệm. ARM64, máy 32 bit và các distro khác chưa được xác nhận. Không cần tắt cơ chế bảo mật của Ubuntu để cài app.
+- **Windows & macOS**:
+  - **Bản Full** tích hợp sẵn các gói trình biên dịch và runtime do JudgeDesk quản lý, phù hợp cho phòng máy, kỳ thi offline và máy giáo viên muốn cài một lần là chấm được ngay.
+  - **Bản Core** chỉ gồm ứng dụng chấm thi và Scratch Headless VM, dành cho máy đã cài sẵn compiler hoặc muốn tải từng ngôn ngữ theo nhu cầu trong mục **Trình biên dịch & Runtime (`F6`)**.
+- **Linux (`x86_64` / `amd64`)**:
+  - Hỗ trợ từ **Ubuntu 22.04 LTS** trở lên (bao gồm **Ubuntu 22.04 LTS**, **Ubuntu 24.04 LTS**, **Ubuntu 26.04 LTS+** và các distro có `GLIBC >= 2.34`).
+  - Khi cài gói `.deb` bằng `apt`, hệ thống tự động cài đặt `bubblewrap`, `zenity`, `g++`, `python3`. JudgeDesk tự động quét và nhận diện mọi phiên bản `g++`/`gcc`/`clang++`, `python3`, `fpc`, `javac` có trên máy ở chế độ `Local (auto-detect)` mà không cần chọn đường dẫn thủ công.
+  - Hỗ trợ đầy đủ cả **6 ngôn ngữ** (C++, C, Python, Pascal, Java, Scratch), **Bài thi tương tác (Interactive)** và **Universal Precompiled Header (`bits/stdc++.h.gch`)**.
+- **Cập nhật 1-Click giữ nguyên định dạng gói cài đặt**:
+  - Khi có phiên bản mới, nút **Cập nhật** trên thanh công cụ tải bản cập nhật nhẹ trong nền và giữ nguyên 100% cấu hình cùng dữ liệu kỳ thi.
+  - Trên Linux, trình cập nhật được tách kênh riêng theo đúng định dạng bạn đã cài đặt ban đầu (`deb` cập nhật qua `.deb`, `rpm` cập nhật qua `.rpm`, `AppImage` cập nhật qua `.AppImage`), tuyệt đối không tải nhầm định dạng gói của bản phân phối khác.
 
-1. Tải `JudgeDesk_1.5.6_core_amd64.deb` và `SHA256SUMS` từ release v1.5.6 khi các file được công bố. Nếu dùng phiên bản mới hơn, thay số version trong các lệnh dưới đây. Với candidate thử nghiệm, dùng file và checksum do nhóm phát triển cung cấp.
-2. Mở Terminal trong thư mục tải về, chạy `sha256sum JudgeDesk_1.5.6_core_amd64.deb` và đối chiếu với dòng tương ứng trong `SHA256SUMS`. Chỉ cài khi hash khớp.
-3. Cài app và compiler/runtime:
+---
 
+## Cài đặt nhanh
+
+Trước khi mở gói cài đặt, nên tải kèm tệp `SHA256SUMS` trong cùng bản release để đối chiếu mã băm SHA-256.
+
+### 1. Windows 10/11 x64
+
+1. Tải `JudgeDesk_<version>_full_x64_en-US.msi` (hoặc bản `core`) và `SHA256SUMS`.
+2. Kiểm tra mã băm trong PowerShell:
+   ```powershell
+   Get-FileHash .\JudgeDesk_*.msi -Algorithm SHA256
+   Get-Content .\SHA256SUMS
+   ```
+3. Chạy tệp `.msi` để cài đặt hoặc nâng cấp trực tiếp bản cũ.
+
+### 2. macOS Apple Silicon (M1/M2/M3/M4 — macOS 11+)
+
+1. Tải `JudgeDesk_<version>_full_aarch64.dmg` (hoặc bản `core`) và `SHA256SUMS`.
+2. Kiểm tra mã băm trong Terminal:
    ```bash
-   sudo apt update
-   sudo apt install ./JudgeDesk_1.5.6_core_amd64.deb
-   sudo apt install gcc-13 g++-13 python3.12
+   shasum -a 256 JudgeDesk_*.dmg
+   cat SHA256SUMS
+   ```
+3. Mở tệp `.dmg`, kéo `JudgeDesk.app` vào thư mục `Applications`.
+4. Trước lần mở đầu tiên, gỡ thuộc tính cách ly (quarantine) của macOS:
+   ```bash
+   xattr -dr com.apple.quarantine /Applications/JudgeDesk.app
+   ```
+5. Nếu muốn chấm bài C/C++ trên macOS, cài đặt Xcode Command Line Tools:
+   ```bash
+   xcode-select --install
    ```
 
-   APT sẽ tải dependencies cần thiết từ Ubuntu. `./` cho biết đây là file local; hiện chưa có APT repository riêng của JudgeDesk. Khi `sudo` hỏi mật khẩu, Terminal không hiện ký tự đang gõ.
+### 3. Linux x86_64 (`amd64` — Ubuntu 22.04 LTS, 24.04 LTS, 26.04 LTS+ & Distro khác)
 
-4. Mở **JudgeDesk** từ menu ứng dụng bằng tài khoản bình thường. Chờ màn hình **Đang chuẩn bị bộ chấm** hoàn tất; lần đầu hoặc sau cập nhật có thể lâu hơn do tạo cache runtime. Trong cấu hình compiler/runtime, chọn **Local** và đặt C++ là `/usr/bin/g++-13`, C là `/usr/bin/gcc-13`, Python là `/usr/bin/python3.12`. Chạy kiểm tra compatibility cho cả ba; chỉ chấm khi compiler và sandbox đều sẵn sàng. Không mở app bằng `sudo`.
-5. Thử tạo/mở/lưu contest, chấm bài mẫu bằng ba ngôn ngữ, kiểm tra verdict/điểm và xuất Excel. Pascal, Java, Scratch và bài tương tác chưa được hỗ trợ trên Linux. Gửi phiên bản app, `lsb_release -ds`, `uname -r`, loại desktop và testcase tái hiện khi báo lỗi.
+1. Kiểm tra mã băm SHA-256 trong thư mục chứa tệp tải về:
+   ```bash
+   sha256sum --ignore-missing -c SHA256SUMS
+   ```
+2. Cài đặt theo định dạng tệp bạn đã chọn:
 
-Để nâng cấp thủ công, đóng app rồi chạy `sudo apt install ./JudgeDesk_<version>_core_amd64.deb` với file mới. Sau khi mở lại, kiểm tra version, ba đường dẫn đã lưu và compatibility. Cấu hình nằm trong `~/.local/share/ThemisV2/` hoặc `$XDG_DATA_HOME/ThemisV2/`; bộ cài/updater không sửa hoặc xóa thư mục này. Không nâng cấp compiler hệ thống trong khi đang chấm. Xem thêm [INSTALL.md](INSTALL.md).
+   - **Gói `.deb` (Ubuntu 22.04 LTS / 24.04 LTS / 26.04 LTS+, Debian 12+, Linux Mint 21+, Pop!_OS — Khuyên dùng):**
+     ```bash
+     sudo apt update
+     sudo apt install ./JudgeDesk_<version>_amd64.deb
+     ```
+     *(Tùy chọn: cài thêm `sudo apt install fpc default-jdk` nếu kỳ thi có chấm Pascal hoặc Java).*
 
-## Ngôn ngữ được hỗ trợ
+   - **Gói `.rpm` (Fedora 38+, RHEL / AlmaLinux / Rocky 9+, openSUSE):**
+     ```bash
+     sudo dnf install ./JudgeDesk-<version>-1.x86_64.rpm
+     sudo dnf install bubblewrap zenity gcc-c++ python3
+     ```
 
-Windows/macOS hỗ trợ sáu ngôn ngữ dưới đây. Linux đợt đầu hỗ trợ C++, C và Python theo phiên bản Ubuntu nêu trên.
+   - **Gói `.AppImage` (Portable cho mọi distro Linux `x86_64`):**
+     ```bash
+     chmod +x ./JudgeDesk_<version>_amd64.AppImage
+     ./JudgeDesk_<version>_amd64.AppImage
+     ```
 
-- **C++ (C++14):** GCC 14.2.0 (Windows) / Apple Clang (macOS) / GCC 13 (Ubuntu).
-- **C (C11):** GCC 14.2.0 (Windows) / Apple Clang (macOS) / GCC 13 (Ubuntu).
-- **Python:** CPython 3.12.13 (Windows/macOS) / CPython 3.12 (Ubuntu).
-- **Pascal:** Free Pascal 3.2.2.
-- **Java:** Eclipse Temurin OpenJDK 21.0.12+8.
-- **Scratch:** TurboWarp VM / scratch-run 0.1.7 (`.sb3`, `.sb2`, `.sb`).
+3. Mở **JudgeDesk** từ menu ứng dụng (hoặc gõ `themis-v2` trong Terminal). Ứng dụng sẽ tự động nhận diện trình biên dịch hệ thống và kiểm tra môi trường Sandbox.
 
-## Điểm Nổi Bật Trên Phiên Bản v1.5.0
+Xem hướng dẫn chi tiết, cách kiểm tra trạng thái compiler và gỡ cài đặt trong [INSTALL.md](INSTALL.md).
 
-- **Universal Precompiled Header C++ (`bits/stdc++.h.gch`)**: Tự động sinh và cache PCH cho mọi compiler C++ (Managed GCC, MinGW-w64, MSYS2 UCRT64, Apple Clang), tăng tốc độ biên dịch gấp ~16.5 lần (từ ~3.6s xuống chỉ còn ~0.23s).
-- **Chấm Bài Thi Tương Tác (Interactive Problems & Interactor)**: Runner chấm tương tác độc quyền qua Win32 AppContainer dual-job runner với hai đường ống ẩn danh hai chiều (bidirectional anonymous pipes). Hỗ trợ interactor viết bằng C++ (`testlib.h`) hoặc Python.
-- **Chấm Điểm Phân Số Chính Xác Tuyệt Đối (Rational Scoring Engine)**: Tính toán điểm qua phân số tối giản (GCD) triệt tiêu hoàn toàn sai số trôi số thực IEEE 754 trên bảng điểm và xuất Excel.
-- **Giới Hạn Bộ Nhớ Lên Đến 1024 MB**: Hỗ trợ Memory Limit từ 8 MB đến 1024 MB (1 GB) trên cả Windows và macOS, mặc định 256 MB chuẩn Olympic / HSG / ICPC.
-- **Chấm Thi Scratch Hoàn Thiện Tuyệt Đối**: Runner `scratch-run` (VNOI / TurboWarp VM) tích hợp sẵn, nạp test qua `ask and wait` và xuất kết quả qua `say`/`think`, cô lập an toàn trong Windows Job Objects / macOS Seatbelt.
-- **Làm Ấm Sandbox Ngầm (Background Judge Pre-warm)**: Khởi động nền làm nóng môi trường thực thi và compiler ngay khi mở ứng dụng, loại bỏ độ trễ chấm lần đầu.
-- **Cập Nhật 1-Chạm Siêu Tốc & Nút Ủng Hộ (Donation)**: Nút cập nhật trực tiếp trên thanh công cụ với tiến trình tải Core ngầm (~20MB) và khởi động lại một chạm; bổ sung nút ủng hộ / mời cà phê thân thiện.
-- **Bộ Nhận Diện Thương Hiệu Mới**: Logo và bộ icon ứng dụng mới hiện đại, sắc nét trên cả Windows và macOS.
+---
+
+## Sử dụng cơ bản
+
+1. Mở **JudgeDesk**, kiểm tra trạng thái môi trường và trình biên dịch (`F6`).
+2. Nạp thư mục đề bài (**Load Problems** — `F2`) và thư mục bài làm thí sinh (**Load Contestants** — `F3`).
+3. Nhấp chuột phải vào cột bài tập để thiết lập chế độ vào/ra (Standard I/O hoặc File I/O), giới hạn thời gian/bộ nhớ (tới 1024 MB), thang điểm/subtasks, cờ biên dịch và trình chấm (Checker / Interactor).
+4. Chọn thí sinh và bài cần chấm, sau đó bấm **Chấm bài** (`F9`) để chấm trực tiếp với tiến độ thời gian thực, hoặc bật **Chấm trực tuyến qua LAN (`F8` OSD)**.
+5. Nhấp đúp vào từng ô điểm để xem chi tiết từng testcase, lưu toàn bộ kỳ thi thành tệp `.judgedesk` (`Ctrl+S` / `⌘S`) hoặc xuất bảng điểm ra tệp Excel `.xlsx` (`F12`).
+
+Trong ứng dụng, nhấn `F1` bất kỳ lúc nào để mở **Trung tâm hướng dẫn offline**.
+
+---
+
+## Tài liệu khác & Mã nguồn
+
+- [Hướng dẫn cài đặt chi tiết cho Windows, macOS và Linux](INSTALL.md)
+- [Quản lý compiler và runtime](TOOLCHAINS.md)
+- [Hỗ trợ và báo lỗi](SUPPORT.md)
+- [Chính sách bảo mật](SECURITY.md)
+- [Lịch sử thay đổi (Changelog)](CHANGELOG.md)
+- **Kho mã nguồn công khai (Source Repository):** [`ducminh25/judgedesk-source`](https://github.com/ducminh25/judgedesk-source)
+
+---
+
+## Ủng hộ dự án (Donate)
+
+JudgeDesk được phát triển và duy trì hoàn toàn miễn phí nhằm phục vụ cộng đồng giáo viên và học sinh dạy - học lập trình. Nếu ứng dụng giúp ích cho công việc giảng dạy, chấm thi của thầy/cô và các bạn, mọi người có thể ủng hộ tác giả một ly cà phê để tiếp thêm động lực duy trì và phát triển các tính năng mới:
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/ducminh25/judgedesk-source/main/src/assets/donate-qr.jpg" alt="Mã QR Ủng hộ tác giả Đinh Đức Minh" width="320" />
+</p>
+
+- **Ngân hàng:** VPBank
+- **Chủ tài khoản:** DINH DUC MINH
+- **Số tài khoản:** `0386014658`
+
+Trân trọng cảm ơn sự đồng hành và đóng góp của quý thầy cô và các bạn!

@@ -5,16 +5,61 @@ Versioning; các bản `1.x` giữ tương thích updater và dữ liệu ứng 
 
 ## [Unreleased]
 
-## [1.5.6] - 2026-10-11
+## [1.6.0] - 2026-10-20
 
-### Initial release for Linux
+### Pure Rust Core, Hỗ Trợ Chính Thức Linux Đa Phiên Bản (`Ubuntu 22.04 LTS+`, `.deb` / `.rpm` / `.AppImage`) & Tăng Cường Độ Chính Xác Chấm Bài
 
-- **Hệ thống hỗ trợ ban đầu:** Ubuntu 24.04 LTS trên máy Intel/AMD 64-bit (`amd64`/`x86_64`). Sandbox đã được kiểm chứng với kernel GA 6.8 trong VM dùng cấu hình boot riêng của lab; boot mặc định còn cần kiểm chứng.
-- **Bộ cài:** bản Core `JudgeDesk_1.5.6_core_amd64.deb`, cài qua APT. Cần Internet để tải các dependency và compiler/runtime chưa có; Linux chưa có bản Full hoặc repository APT riêng.
-- **Ngôn ngữ:** C++, C với GCC 13 và Python với CPython 3.12. Người dùng chọn đường dẫn compiler/runtime có sẵn; app kiểm tra compatibility, không tự fallback và giữ các lựa chọn cá nhân qua cập nhật.
-- **Luồng chấm:** bổ sung sandbox Linux cách ly file/mạng và giới hạn tài nguyên; giữ điểm phân số, bảng điểm, lưu/mở contest `.judgedesk` và xuất Excel.
-- **Phạm vi:** Linux ARM64/32-bit, các distro khác, Pascal/Java/Scratch và bài tương tác chưa được hỗ trợ ở đợt đầu. Ubuntu Desktop/Wayland, HWE và máy thật cần thêm kiểm chứng. Không yêu cầu người dùng tắt cơ chế bảo mật của hệ điều hành để cài JudgeDesk.
-- Xem [hướng dẫn cài đặt Linux](INSTALL.md) để cài đặt, cấu hình và báo lỗi.
+- **Hỗ trợ chính thức Linux `x86_64` (`amd64`) đa phiên bản (từ Ubuntu 22.04 LTS trở lên)**:
+  - Phát hành đồng thời 3 định dạng bộ cài đặt Linux: `JudgeDesk_1.6.0_amd64.deb` (khuyên dùng cho Ubuntu 22.04 LTS, 24.04 LTS, 26.04 LTS+, Debian 12+, Linux Mint 21+, Pop!_OS), `JudgeDesk-1.6.0-1.x86_64.rpm` (Fedora, RHEL, AlmaLinux, Rocky, openSUSE) và `JudgeDesk_1.6.0_amd64.AppImage` (tệp thực thi portable độc lập).
+  - Toàn bộ binary thực thi (`themis-v2`, `server`, `judgedesk-executor`) được biên dịch đạt chuẩn tương thích ngược **ELF `GLIBC <= 2.34`** và mở khoá khai báo thư viện Debian (`libgtk-3-0t64 | libgtk-3-0`, `libayatana-appindicator3-1 | libappindicator3-1`), cài đặt và chạy mượt trên cả Ubuntu 22.04 LTS (`glibc 2.35`), Ubuntu 24.04 LTS (`glibc 2.39`) và Ubuntu 26.04 LTS+.
+  - Gói `.deb` tự động kéo đầy đủ phụ thuộc (`bubblewrap`, `zenity`, `xdg-utils`, `g++`, `python3`) qua `apt`.
+- **Tự động nhận diện mọi phiên bản Compiler trên Linux (`Local (auto-detect)`)**:
+  - Tự động phát hiện và kiểm chứng mọi phiên bản `g++`/`gcc`/`clang++`, `python3`, `fpc` (`ppcx64`) và `javac`/`java` có trên hệ thống mà không khoá cứng phiên bản (như `g++-13` hay `python3.12`) và không yêu cầu cấu hình đường dẫn thủ công.
+  - Hỗ trợ đầy đủ cả 6 ngôn ngữ (C++, C, Python, Pascal, Java, Scratch), Universal Precompiled Header (`bits/stdc++.h.gch`) và hộp thoại chọn thư mục gốc (`zenity` / `kdialog`) trên Linux.
+- **Linux Native Sandbox (`linux-bwrap-cgroup-seccomp`) & Interactive Runner (`linux_interactive`)**:
+  - Cô lập thực thi bài nộp thí sinh trên Linux bằng **Bubblewrap (`bwrap`) + systemd User Scope (`cgroup v2`) + bộ lọc syscall `seccomp-bpf`**, chặn hoàn toàn kết nối mạng (`--unshare-net`), cách ly hệ thống tệp tạm thời và đo lường chính xác CPU time / Peak Memory (tới 1024 MB).
+  - Bổ sung runner chấm bài tương tác hai chiều trên Linux (`linux_interactive`) với hai đường ống ẩn danh hai chiều giữa bài nộp và Interactor (C++ `testlib.h` / Python), chống deadlock `EOF`/`SIGPIPE`.
+- **In-App Updater cách ly theo đúng định dạng cài đặt trên Linux (Format-Isolated Updater)**:
+  - Nhận diện định dạng gói cài đặt đang chạy (`deb`, `rpm`, `appimage`) qua Tauri bundle runtime và ánh xạ tới mục tiêu cập nhật riêng biệt (`linux-x86_64-deb-core`, `linux-x86_64-rpm-core`, `linux-x86_64-appimage-core`), đảm bảo người dùng cài `.rpm` hoặc `.AppImage` luôn tải đúng định dạng tương ứng khi cập nhật.
+- **Kiến trúc Pure Rust Core (`judgedesk-core`) & Sửa lỗi độ chính xác chấm thi đa nền tảng**:
+  - Hoàn thiện crate `judgedesk-core` (Rust Axum backend) đạt tương đương hợp đồng API với Node.js sidecar trên cả Windows, macOS và Linux.
+  - Sửa lỗi phân giải đường dẫn mã nguồn theo tên bài không phân biệt hoa/thường trên hệ thống tệp phân biệt chữ hoa/thường (Linux/macOS).
+  - Chuẩn hoá thực thi Python độc lập (`-I -B`), ánh xạ chính xác mã kết quả của Custom Checker Themis/Testlib và bảo toàn dọn dẹp cây tiến trình (`pidfd_open` + `/proc` + `flock` trên Linux).
+
+## [1.5.5] - 2026-10-07
+
+### Tái cấu trúc Cấu hình bài thi, Phân nhóm Nhanh, Kiểm tra Định dạng Test & Tối ưu Bộ nhớ Compiler
+
+- **Giao diện Cấu hình bài thi theo Tab (`Problem Config Tabs`)**:
+  - Tái cấu trúc cửa sổ Cài đặt bài thi thành 3 tab chuyên biệt: **Cơ bản**, **Tests** và **Biên dịch**.
+  - Cải thiện đáng kể không gian hiển thị danh sách testcase và chính sách nhóm; hỗ trợ điều hướng bàn phím hoàn chỉnh và bảo lưu toàn bộ dữ liệu nháp khi chuyển tab.
+- **Phân nhóm test nhanh & Hộp thoại Sửa nhóm chuyên sâu (`Quick Grouping & Group Editor`)**:
+  - Bổ sung thanh công cụ phân nhóm nhanh: nhập dải số thứ tự test theo cột `#` (ví dụ: `1-8, 10, 12-19`) để gán vào nhóm trong 1 thao tác hoặc để trống tên nhóm để hủy gán nhóm.
+  - Hộp thoại **Sửa nhóm** mới: cho phép chỉnh sửa danh mục test theo dải số, tự động phân bổ đồng đều giữa "Tổng điểm nhóm" và "Điểm mỗi test" bằng công cụ số hữu tỉ chính xác tuyệt đối.
+  - Bảo toàn điểm số riêng của từng test khi chỉ thay đổi thành viên nhóm mà không chỉnh sửa điểm.
+- **Kiểm tra định dạng test chuẩn tắc (`Test Well-Formed Validation`)**:
+  - Tích hợp công cụ phát hiện lỗi định dạng input testcase theo tiêu chuẩn Polygon/Codeforces (tệp rỗng, thiếu ký tự xuống dòng cuối tệp, ký tự điều khiển lạ, khoảng trắng đầu/cuối dòng, nhiều dấu cách liên tiếp hoặc dòng trống thừa).
+  - Hoạt động theo cơ chế chỉ đọc an toàn (Read-only, tuyệt đối không chỉnh sửa tệp dữ liệu gốc), hiển thị vị trí lỗi chính xác tới từng dòng và cột.
+- **Tự động Dọn dẹp & Di trú Trình biên dịch (`Toolchain Storage Deduplication`)**:
+  - Tự động phát hiện, di chuyển và hợp nhất các gói compiler được quản lý vào thư mục chuẩn `%LOCALAPPDATA%/ThemisV2/toolchains` khi cập nhật ứng dụng.
+  - Dọn dẹp an toàn các bản sao trùng lặp giữa bản Core và bản Full, giải phóng hàng trăm megabyte bộ nhớ lưu trữ.
+- **Ghi cấu hình đĩa an toàn (Atomic File Persistence)**:
+  - Áp dụng cơ chế ghi tệp tạm độc quyền và `fsync` trước khi đổi tên sang `Config.cfg`, triệt tiêu hoàn toàn rủi ro hư hỏng file cấu hình khi ứng dụng bị tắt đột ngột.
+
+## [1.5.3] - 2026-10-06
+
+- Bổ sung cách thức nhận test mới: cặp file input và output cùng tên được tính là 1 test.
+- Bug fixes.
+
+## [1.5.2] - 2026-10-05
+
+- Bổ sung cách thức nhận test mới: cặp file input và output cùng tên được tính là 1 test.
+
+## [1.5.1] - 2026-09-23
+
+### Sửa lỗi và cải tiến nhỏ (Bug fixes and small improvements)
+
+- Bug fixes and small improvements.
 
 ## [1.5.0] - 2026-09-16
 

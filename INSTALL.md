@@ -2,11 +2,23 @@
 
 Tải các bản phát hành chính thức tại [GitHub Releases](https://github.com/ducminh25/judgedesk/releases).
 
-## Windows 10/11 x64
+## Tổng quan nền tảng và tệp cài đặt (từ v1.6.0)
+
+| Hệ điều hành | Phiên bản hỗ trợ | Tệp cài đặt khuyên dùng | Tệp thay thế / Bổ sung |
+| :--- | :--- | :--- | :--- |
+| **Windows x64** | Windows 10, Windows 11 (64-bit) | `JudgeDesk_<version>_full_x64_en-US.msi` | `JudgeDesk_<version>_core_x64_en-US.msi` |
+| **macOS Apple Silicon** | macOS 11 Big Sur trở lên (`arm64` — M1/M2/M3/M4) | `JudgeDesk_<version>_full_aarch64.dmg` | `JudgeDesk_<version>_core_aarch64.dmg` |
+| **Linux x86_64 (`amd64`) — Ubuntu / Debian / Mint** | **Ubuntu 22.04 LTS, 24.04 LTS, 26.04 LTS+**<br/>Debian 12+, Linux Mint 21+, Pop!_OS 22.04+, Zorin OS 17+ *(GLIBC $\ge$ 2.34)* | `JudgeDesk_<version>_amd64.deb` *(Ưu tiên)* | `JudgeDesk_<version>_amd64.AppImage` |
+| **Linux x86_64 (`amd64`) — Fedora / RHEL / openSUSE** | Fedora 38+, RHEL / AlmaLinux / Rocky 9+, openSUSE *(GLIBC $\ge$ 2.34)* | `JudgeDesk-<version>-1.x86_64.rpm` | `JudgeDesk_<version>_amd64.AppImage` |
+| **Linux x86_64 (`amd64`) — Arch / Distro khác** | Các bản phân phối Linux 64-bit có `GLIBC >= 2.34` | `JudgeDesk_<version>_amd64.AppImage` | — |
+
+---
+
+## 1. Windows 10/11 x64
 
 1. Tải tệp cài đặt phù hợp từ trang release:
-   - `JudgeDesk_<version>_full_x64_en-US.msi`: Khuyến nghị cho phòng máy và lớp học. Tích hợp sẵn WebView2 Runtime và toàn bộ compiler/runtime quản lý.
-   - `JudgeDesk_<version>_core_x64_en-US.msi`: Gói rút gọn, cho phép tải toolchain sau qua giao diện.
+   - `JudgeDesk_<version>_full_x64_en-US.msi`: Khuyến nghị cho phòng máy và lớp học. Tích hợp sẵn WebView2 Runtime và toàn bộ compiler/runtime quản lý (GCC 14, CPython 3.12, Free Pascal, OpenJDK 21, Scratch Headless VM).
+   - `JudgeDesk_<version>_core_x64_en-US.msi`: Gói rút gọn, cho phép dùng compiler có sẵn trên máy hoặc tải toolchain sau qua giao diện.
 2. Tải tệp `SHA256SUMS` trong cùng mục release.
 3. Mở PowerShell trong thư mục chứa file và kiểm tra mã băm:
 
@@ -18,14 +30,16 @@ Get-Content .\SHA256SUMS
 4. Chạy tệp `.msi` khi hai chuỗi SHA-256 khớp nhau.
 5. Mở ứng dụng và kiểm tra trạng thái compiler ở màn hình ban đầu.
 
-Gói cài đặt tự động nâng cấp nếu trên máy đã có phiên bản JudgeDesk trước đó, giữ nguyên dữ liệu kỳ thi và cấu hình toolchain hiện tại.
+Gói cài đặt tự động nâng cấp tại chỗ nếu trên máy đã có phiên bản JudgeDesk trước đó, giữ nguyên dữ liệu kỳ thi và cấu hình toolchain hiện tại.
 
-## macOS Apple Silicon (M1/M2/M3/M4)
+---
 
-JudgeDesk hỗ trợ macOS 11 trở lên trên kiến trúc Apple Silicon (ARM64).
+## 2. macOS Apple Silicon (M1/M2/M3/M4)
+
+JudgeDesk hỗ trợ macOS 11 trở lên trên kiến trúc Apple Silicon (`arm64`).
 
 1. Tải bản cài đặt từ release:
-   - `JudgeDesk_<version>_full_aarch64.dmg`: Khuyến nghị, có sẵn runtime Python, Pascal và Java.
+   - `JudgeDesk_<version>_full_aarch64.dmg`: Khuyến nghị, có sẵn runtime Python, Pascal, Java và Scratch. Riêng C/C++ sử dụng Apple Clang từ Xcode Command Line Tools (`xcode-select --install`).
    - `JudgeDesk_<version>_core_aarch64.dmg`: Gói rút gọn.
 2. Tải `SHA256SUMS` và xác minh qua Terminal:
 
@@ -34,53 +48,126 @@ shasum -a 256 JudgeDesk_*.dmg
 cat SHA256SUMS
 ```
 
-3. Mở tệp `.dmg` và kéo biểu tượng JudgeDesk vào thư mục Applications.
-4. Mở ứng dụng từ Launchpad hoặc Applications.
+3. Mở tệp `.dmg` và kéo biểu tượng `JudgeDesk.app` vào thư mục `Applications`.
+4. Trước lần mở đầu tiên, gỡ thuộc tính cách ly (quarantine) của tệp tải về qua Terminal:
 
-Trường hợp Gatekeeper hiển thị cảnh báo ứng dụng chưa xác minh danh tính lập trình viên, vào **System Settings → Privacy & Security**, tìm thông báo về JudgeDesk và chọn **Open Anyway**.
+```bash
+xattr -dr com.apple.quarantine /Applications/JudgeDesk.app
+```
 
-## Ubuntu 24.04 LTS x86_64 — Core, từ v1.5.6
+5. Mở ứng dụng từ Launchpad hoặc Applications. Trường hợp Gatekeeper hiển thị cảnh báo, vào **System Settings → Privacy & Security**, tìm thông báo về JudgeDesk và chọn **Open Anyway**.
 
-Bản Linux đầu tiên dành cho máy Intel/AMD 64 bit (amd64/x86_64), dùng GCC 13 cho C++/C và CPython 3.12 cho Python. Sandbox đã được kiểm chứng với kernel GA 6.8 trong VM dùng cấu hình boot riêng của lab; boot mặc định, Desktop/Wayland, HWE và máy thật cần thêm thử nghiệm. ARM64, 32 bit và các distro khác chưa được xác nhận. Linux chưa có Full, managed toolchain, Pascal, Java, Scratch hoặc bài tương tác.
+---
 
-1. Tải `JudgeDesk_<version>_core_amd64.deb` và `SHA256SUMS` từ cùng release (bản đầu tiên là v1.5.6, khi được công bố). Đối chiếu kết quả `sha256sum JudgeDesk_<version>_core_amd64.deb` với dòng tương ứng trong `SHA256SUMS`.
-2. Mở Terminal trong thư mục chứa file, thay `<version>` bằng số thực tế:
+## 3. Linux x86_64 (`amd64`) — Ubuntu 22.04 LTS, 24.04 LTS, 26.04 LTS+ & Các Bản Phân Phối Khác
 
+Từ phiên bản **v1.6.0**, các tệp thực thi Linux của JudgeDesk được biên dịch đạt chuẩn tương thích ngược **ELF `GLIBC <= 2.34`** và khai báo phụ thuộc thư viện linh hoạt (`libgtk-3-0t64 | libgtk-3-0`, `libwebkit2gtk-4.1-0`, `libayatana-appindicator3-1 | libappindicator3-1`). Nhờ đó, bộ cài hoạt động xuyên suốt từ **Ubuntu 22.04 LTS (Jammy)**, **Ubuntu 24.04 LTS (Noble)** đến **Ubuntu 26.04 LTS+** và các bản phân phối nhân Linux 64-bit hiện đại mà không bị khoá cứng vào một phiên bản hệ điều hành duy nhất.
+
+### 3.1. Xác minh tệp tải về (SHA-256)
+
+Tải gói cài đặt phù hợp cùng tệp `SHA256SUMS` (hoặc `SHA256SUMS-linux`) về cùng một thư mục, sau đó kiểm tra trong Terminal:
+
+```bash
+sha256sum --ignore-missing -c SHA256SUMS
+```
+
+Chỉ tiếp tục cài đặt khi tệp tải về báo `OK`.
+
+### 3.2. Cách cài đặt theo từng loại tệp
+
+#### A. Gói `.deb` — Khuyên dùng cho Ubuntu 22.04 LTS / 24.04 LTS / 26.04 LTS+, Debian 12+, Linux Mint 21+, Pop!_OS
+
+Tệp: `JudgeDesk_<version>_amd64.deb`
+
+Chạy lệnh sau trong thư mục chứa tệp `.deb` (bắt buộc có dấu `./` ở đầu tên tệp để `apt` tự động tải các gói phụ thuộc):
+
+```bash
+sudo apt update
+sudo apt install ./JudgeDesk_<version>_amd64.deb
+```
+
+- `apt` sẽ tự động cài đặt luôn `bubblewrap` (sandbox cô lập bài nộp), `zenity` (hộp thoại chọn thư mục gốc), `xdg-utils`, `g++`, `python3` và các thư viện giao diện GTK/WebKit2GTK phù hợp với phiên bản Ubuntu của bạn.
+- Nếu kỳ thi có chấm **Pascal** hoặc **Java**, cài đặt thêm trình biên dịch tương ứng:
+  ```bash
+  sudo apt install fpc default-jdk
+  ```
+
+#### B. Gói `.rpm` — Dành cho Fedora 38+, RHEL / AlmaLinux / Rocky Linux 9+, openSUSE
+
+Tệp: `JudgeDesk-<version>-1.x86_64.rpm`
+
+```bash
+# Trên Fedora / RHEL / AlmaLinux / Rocky Linux:
+sudo dnf install ./JudgeDesk-<version>-1.x86_64.rpm
+sudo dnf install bubblewrap zenity gcc-c++ python3
+
+# Tùy chọn nếu chấm thêm Pascal / Java:
+sudo dnf install fpc java-21-openjdk-devel
+```
+
+*(Trên openSUSE, sử dụng `sudo zypper install ./JudgeDesk-<version>-1.x86_64.rpm`).*
+
+#### C. Gói `.AppImage` — Tệp chạy độc lập (Portable) cho mọi distro Linux `x86_64`
+
+Tệp: `JudgeDesk_<version>_amd64.AppImage`
+
+1. Đảm bảo máy đã có `bubblewrap`, `zenity`, trình biên dịch (`g++`, `python3`...) và thư viện FUSE 2 để chạy AppImage:
+   - Trên Ubuntu 22.04: `sudo apt install libfuse2 bubblewrap zenity g++ python3`
+   - Trên Ubuntu 24.04+: `sudo apt install libfuse2t64 bubblewrap zenity g++ python3`
+2. Cấp quyền thực thi và mở trực tiếp ứng dụng:
    ```bash
-   sudo apt update
-   sudo apt install ./JudgeDesk_<version>_core_amd64.deb
-   sudo apt install gcc-13 g++-13 python3.12
+   chmod +x ./JudgeDesk_<version>_amd64.AppImage
+   ./JudgeDesk_<version>_amd64.AppImage
    ```
 
-   Cần Internet khi APT tải dependencies chưa có. Đây là APT cài file local; chưa có APT repository riêng của JudgeDesk.
+### 3.3. Tự động nhận diện trình biên dịch trên Linux
 
-3. Mở JudgeDesk từ menu ứng dụng bằng tài khoản bình thường. Chờ **Đang chuẩn bị bộ chấm** hoàn tất; lần đầu hoặc sau cập nhật app cần xác minh và tạo cache runtime. Nếu app báo không thể khởi động bộ chấm, lưu log và báo lỗi. Không dùng `sudo` để chạy app và không tắt cơ chế bảo mật của Ubuntu.
-4. Trong cấu hình compiler/runtime, chọn Local: C++ `/usr/bin/g++-13`, C `/usr/bin/gcc-13`, Python `/usr/bin/python3.12`. Chạy compatibility cho từng lựa chọn và kiểm tra sandbox sẵn sàng trước khi chấm. Cấu hình không tương thích phải được sửa; app không tự đổi compiler.
-5. Thử contest mẫu C++, C và Python, lưu/mở lại contest, kiểm tra verdict/điểm và xuất Excel.
+Từ **v1.6.0**, bạn **không cần** chọn tay đường dẫn `/usr/bin/g++-13` hay `/usr/bin/python3.12`.
+- Ngay khi mở ứng dụng, JudgeDesk tự động quét và nhận diện mọi phiên bản `g++` / `gcc` / `clang++` (GCC 11, 12, 13, 14...), `python3` (3.10, 3.11, 3.12, 3.13...), `fpc` và `javac`/`java` có trong `PATH` hoặc thư mục chuẩn của hệ thống ở chế độ **Local (auto-detect)**.
+- Bạn có thể bấm phím `F6` (**Trình biên dịch & Runtime**) để kiểm tra trạng thái **Sẵn sàng chấm bài (Submission ready)** của từng ngôn ngữ, hoặc bấm **Quét lại (Rescan)** nếu vừa cài thêm compiler mới.
+- **Scratch (`.sb3`, `.sb2`, `.sb`)**, **Bài thi tương tác (Interactive)** và **Universal Precompiled Header (`bits/stdc++.h.gch`)** đều hoạt động sẵn trên Linux.
 
-Updater Linux tải Core `.deb` đã ký, hỏi quyền quản trị và giữ các đường dẫn đã lưu. Có thể nâng cấp thủ công bằng cách đóng app rồi chạy `sudo apt install ./JudgeDesk_<version>_core_amd64.deb` với file mới. Sau update, kiểm tra version, compatibility và contest. Cấu hình được giữ trong `~/.local/share/ThemisV2/` (hoặc `$XDG_DATA_HOME/ThemisV2/`). Đóng app trước khi nâng cấp compiler hệ thống bằng APT.
+> **Lưu ý về Sandbox trên một số bản Linux tuỳ biến:** JudgeDesk sử dụng `bubblewrap` (`bwrap`) kết hợp `cgroup v2` và `seccomp-bpf` để cách ly bài làm thí sinh. Trên Ubuntu 22.04 LTS và 24.04 LTS chuẩn, chính sách AppArmor cho `/usr/bin/bwrap` đã được cấu hình sẵn. Nếu hệ thống của bạn khoá cứng user namespaces đối với `bwrap` (mục **Native Execution Sandbox** báo chưa sẵn sàng), hãy kiểm tra gói `bubblewrap` và cấu hình AppArmor `/etc/apparmor.d/bwrap` của bản phân phối, tuyệt đối không tắt toàn bộ cơ chế bảo mật hạt nhân của hệ điều hành.
 
-Nếu APT/dpkg báo lỗi, lưu thông báo và liên hệ nhóm phát triển; không xóa file lock để ép cài. Khi báo lỗi, gửi version app, `lsb_release -ds`, `uname -r`, loại desktop, version/đường dẫn compiler và testcase tái hiện đã loại dữ liệu riêng tư.
+---
 
-## Cập nhật phiên bản và chuyển đổi giữa Core / Full (Windows/macOS)
+## Cập nhật phiên bản và chuyển đổi giữa Core / Full
 
 Ứng dụng kiểm tra phiên bản mới tự động qua nút **Cập nhật (Updater)** trên thanh công cụ:
-- **Tự động cập nhật qua Updater (In-App)**: Luôn tải gói cập nhật ứng dụng cốt lõi siêu nhẹ (~20MB), giữ nguyên toàn bộ toolchain đã có sẵn mà không phải tải lại 800MB compiler qua mạng.
-- **Chuyển từ Core sang Full**: Có 2 cách thuận tiện:
-  1. *Cách 1 (In-App)*: Vào tab **Quản lý Toolchain (Toolchains)** và bấm **Tải về** các ngôn ngữ mong muốn (lưu tại `%LOCALAPPDATA%\ThemisV2\toolchains`).
-  2. *Cách 2 (Cài đặt đè)*: Tải và chạy file `JudgeDesk_<version>_full_*.msi` mới nhất từ GitHub Releases để cài đặt trọn bộ compiler vào thư mục ứng dụng (tự động nhận diện và dọn sạch các bản sao trùng lặp trong AppData nếu có).
+- **Tự động cập nhật qua Updater (In-App)**:
+  - Trên **Windows** và **macOS**: Tải gói cập nhật ứng dụng cốt lõi siêu nhẹ (~20MB), giữ nguyên toàn bộ toolchain đã có sẵn mà không phải tải lại hàng trăm MB compiler qua mạng.
+  - Trên **Linux (`.deb` / `.rpm` / `.AppImage`)**: Trình cập nhật được cách ly theo đúng định dạng cài đặt ban đầu (`linux-x86_64-deb-core`, `linux-x86_64-rpm-core`, `linux-x86_64-appimage-core`). Máy cài bằng `.deb` sẽ luôn nhận bản cập nhật `.deb`, máy cài `.rpm` luôn nhận `.rpm`, và `.AppImage` luôn cập nhật `.AppImage` — tránh hoàn toàn xung đột định dạng gói giữa các bản phân phối Linux.
+- **Chuyển từ Core sang Full (Windows & macOS)**: Có 2 cách thuận tiện:
+  1. *Cách 1 (In-App)*: Vào tab **Quản lý Toolchain (`F6`)** và bấm **Tải về** các ngôn ngữ mong muốn.
+  2. *Cách 2 (Cài đặt đè)*: Tải và chạy file `JudgeDesk_<version>_full_*.msi` (Windows) hoặc `.dmg` (macOS) mới nhất từ GitHub Releases để cài đặt trọn bộ compiler vào thư mục ứng dụng.
 
 ## Quản lý trình biên dịch và lưu trữ
 
-Windows/macOS hỗ trợ 6 ngôn ngữ: C++, C, Python, Pascal, Java và Scratch (.sb3, .sb2, .sb). Linux dùng compiler/runtime hệ thống cho C++/C/Python theo mục Ubuntu ở trên:
-- **Bản Full (Đóng gói sẵn)**: Chứa sẵn bộ compiler/runtime trong thư mục cài đặt ứng dụng (`resources/toolchains`), dùng trực tiếp (Zero-Copy), khởi động tức thì và dùng chung an toàn cho mọi tài khoản trên máy.
-- **Bản Core (Tải thêm theo nhu cầu)**: Các gói tải về từ kho lưu trữ chính thức được lưu tại `%LOCALAPPDATA%\ThemisV2\toolchains` (Windows) hoặc `~/Library/Application Support/ThemisV2/toolchains` (macOS).
-- **Trình biên dịch trên máy (Local)**: Ứng dụng tự động phát hiện compiler có sẵn trong `PATH` hoặc qua đường dẫn chỉ định thủ công nếu vượt qua kiểm tra an toàn.
+Hệ thống hỗ trợ 6 ngôn ngữ: **C++, C, Python, Pascal, Java và Scratch (`.sb3`, `.sb2`, `.sb`)**:
+- **Bản Full (Windows / macOS)**: Chứa sẵn bộ compiler/runtime trong thư mục cài đặt ứng dụng (`resources/toolchains`), dùng trực tiếp (Zero-Copy), khởi động tức thì và dùng chung an toàn cho mọi tài khoản trên máy.
+- **Bản Core / Tải thêm theo nhu cầu**: Các gói tải về từ kho lưu trữ chính thức được lưu tại:
+  - Windows: `%LOCALAPPDATA%\ThemisV2\toolchains`
+  - macOS: `~/Library/Application Support/ThemisV2/toolchains`
+  - Linux: `~/.local/share/ThemisV2/toolchains`
+- **Trình biên dịch trên máy (Local)**: Ứng dụng tự động phát hiện compiler có sẵn trong `PATH` hoặc qua đường dẫn chỉ định thủ công sau khi vượt qua bước kiểm tra tương thích với Sandbox.
 
 ## Gỡ cài đặt
 
 - **Windows:** Vào **Settings → Apps → Installed apps**, tìm **JudgeDesk** và chọn **Uninstall**.
-- **macOS:** Kéo ứng dụng JudgeDesk từ thư mục Applications vào Trash.
-- **Ubuntu:** Đóng JudgeDesk rồi chạy `sudo apt remove judgedesk`. Contest và cấu hình cá nhân được giữ lại.
+- **macOS:** Kéo ứng dụng `JudgeDesk.app` từ thư mục `Applications` vào Trash.
+- **Linux (`.deb` — Ubuntu / Debian / Mint):**
+  ```bash
+  sudo apt remove judgedesk
+  ```
+- **Linux (`.rpm` — Fedora / RHEL / openSUSE):**
+  ```bash
+  sudo dnf remove JudgeDesk
+  ```
+- **Linux (`.AppImage`):** Xóa trực tiếp tệp `JudgeDesk_<version>_amd64.AppImage`.
 
-Dữ liệu toolchain và cấu hình người dùng được lưu trong thư mục `%LOCALAPPDATA%\ThemisV2` (Windows) hoặc `~/Library/Application Support/ThemisV2` (macOS). Có thể xóa trực tiếp trong mục Quản lý Toolchain trước khi gỡ ứng dụng.
+Dữ liệu cấu hình và bộ nhớ đệm của người dùng được lưu tại:
+- Windows: `%LOCALAPPDATA%\ThemisV2`
+- macOS: `~/Library/Application Support/ThemisV2`
+- Linux: `~/.local/share/ThemisV2`
+
+Thư mục này được giữ nguyên khi nâng cấp hoặc gỡ ứng dụng để tránh mất cấu hình. Nếu muốn xóa toàn bộ dấu vết dữ liệu cục bộ sau khi gỡ ứng dụng, bạn có thể xóa thủ công thư mục tương ứng ở trên.

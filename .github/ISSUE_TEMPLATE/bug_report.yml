@@ -8,7 +8,7 @@ body:
     id: version
     attributes:
       label: Phiên bản JudgeDesk
-      placeholder: v1.3.0
+      placeholder: v1.6.0
     validations:
       required: true
   - type: dropdown
@@ -17,7 +17,10 @@ body:
       label: Hệ điều hành
       options:
         - Windows 10/11 x64
-        - macOS Apple Silicon
+        - macOS Apple Silicon (ARM64)
+        - Linux x86_64 (.deb — Ubuntu / Debian / Mint)
+        - Linux x86_64 (.rpm — Fedora / RHEL / openSUSE)
+        - Linux x86_64 (.AppImage)
     validations:
       required: true
   - type: textarea
@@ -48,3 +51,8 @@ body:
         - label: Tôi đã xoá dữ liệu cá nhân, đề thi chưa công bố và thông tin đăng nhập.
           required: true
 
+blank_issues_enabled: false
+contact_links:
+  - name: Báo cáo lỗ hổng bảo mật
+    url: https://github.com/ducminh25/judgedesk/security/advisories/new
+    about: Gửi báo cáo riêng tư, không đăng lỗ hổng công khai.
