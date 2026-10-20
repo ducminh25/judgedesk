@@ -130,11 +130,11 @@ Trong ứng dụng, nhấn `F1` bất kỳ lúc nào để mở **Trung tâm hư
 JudgeDesk được phát triển và duy trì hoàn toàn miễn phí nhằm phục vụ cộng đồng giáo viên và học sinh dạy - học lập trình. Nếu ứng dụng giúp ích cho công việc giảng dạy, chấm thi của thầy/cô và các bạn, mọi người có thể ủng hộ tác giả một ly cà phê để tiếp thêm động lực duy trì và phát triển các tính năng mới:
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/ducminh25/judgedesk-source/main/src/assets/donate-qr.jpg" alt="Mã QR Ủng hộ tác giả Đinh Đức Minh" width="320" />
+  <img src="https://img.vietqr.io/image/MB-0835385259-compact.svg" alt="Mã QR Ủng hộ tác giả Hoàng Đức Minh" width="320" />
 </p>
 
-- **Ngân hàng:** VPBank
-- **Chủ tài khoản:** DINH DUC MINH
-- **Số tài khoản:** `0386014658`
+- **Ngân hàng:** MB
+- **Chủ tài khoản:** HOANG DUC MINH
+- **Số tài khoản:** `0835385259`
 
 Trân trọng cảm ơn sự đồng hành và đóng góp của quý thầy cô và các bạn!
