@@ -5,13 +5,29 @@ Versioning; các bản `1.x` giữ tương thích updater và dữ liệu ứng 
 
 ## [Unreleased]
 
+## [1.6.1] - 2026-10-24
+
+### Trung Tâm Thông Báo, Bản Linux Full & Tương Thích Đa Nền Tảng
+
+- **Trung tâm Thông báo Admin có chữ ký số (`Signed Admin Announcements & Notification Center`)**:
+  - Bổ sung biểu tượng chuông thông báo trên thanh công cụ với badge số tin chưa đọc, bảng tin neo trực tiếp và hộp thoại đọc bài báo dạng editorial (hỗ trợ Tiếng Việt & Tiếng Anh).
+- **Phát hành Bản Đầy Đủ (`Full Edition`) cho Linux (`x86_64`) & Cải tiến Đóng gói Đa bản phân phối**:
+  - Đóng gói sẵn toàn bộ 6 ngôn ngữ lập trình trong bộ cài Linux `Full` (`.deb`, `.rpm`, `.AppImage`) gồm: xPack GCC 14.2.0-2 (C/C++ kèm binutils & sysroot), CPython 3.12.13, Free Pascal 3.2.2, Eclipse Temurin JDK 21.0.12+8 và `scratch-run` 0.1.7, kèm xác minh chỉ mục `SHA-256` từng tệp và tự động nhập vào cache khi khởi chạy lần đầu mà không cần mạng.
+  - Hỗ trợ ánh xạ đường dẫn ngắn trong sandbox (`/jd-tools`, `/jd-work`) giúp Free Pascal biên dịch ổn định với đường dẫn thư mục dài trên Linux và thiết lập mặc định `LANG=C.UTF-8` cho Java runtime.
+  - Nâng cấp Tauri CLI/bundler 2.12.0 khắc phục lỗi trắng cửa sổ `EGL_BAD_PARAMETER` trên AppImage với Mesa mới, bảo vệ payload nhúng của `scratch-run` khỏi bị hỏng bởi `patchelf`, và khôi phục môi trường thư viện gốc của máy chủ (`LD_LIBRARY_PATH`, `LD_PRELOAD`) khi mở ứng dụng ngoài (LibreOffice, trình duyệt, hộp thoại chọn thư mục) từ AppImage.
+- **Tương thích Đa nền tảng & Độ tin cậy khi Chấm bài, Cấu hình**:
+  - **Tương thích tên tệp không phân biệt hoa/thường trên Linux/macOS**: Tự động nhận diện các biến thể chữ hoa/thường của tệp dữ liệu vào/ra (`BAI1.INP` / `bai1.inp` / `Bai1.Inp`), tệp cấu hình (`Config.cfg` / `config.cfg` / `config.json`) và mã nguồn trình chấm/trình tương tác (`checker`, `interactor`).
+  - **Bỏ qua tệp rác hệ điều hành khi quét đề thi & bài nộp**: Tự động lọc bỏ các tệp và thư mục metadata của macOS (`__MACOSX`, `.DS_Store`, `._*`) khi nạp danh sách thí sinh, bài tập, testcase và trình chấm, tránh nhận nhầm tệp nhị phân AppleDouble làm dữ liệu đầu vào.
+  - **Chuẩn hoá nhập điểm thập phân dấu phẩy & kiểm tra điểm hợp lệ**: Tự động chuyển dấu phẩy thập phân (ví dụ: `2,5`, `0,5`, `2,5/5`) thành dấu chấm chuẩn trong công cụ tính điểm hữu tỉ và hộp thoại Cài đặt bài thi, đồng thời kiểm tra nghiêm ngặt giá trị điểm hợp lệ trước khi lưu `Config.cfg`.
+  - **Cải thiện lưu `Config.cfg`, xuất bảng điểm Excel và chuẩn hoá đường dẫn Windows**: Ghi `Config.cfg` nguyên tử qua đường dẫn đã phân giải symlink (hỗ trợ các bản phân phối Linux dùng `/var/home`), tách biệt kết quả lưu tệp Excel với trạng thái mở ứng dụng xem bảng tính (kèm nút sao chép đường dẫn khi máy thiếu ứng dụng đọc `.xlsx`), và loại bỏ tiền tố đường dẫn mở rộng `\\?\` trên Windows khi chẩn đoán trình biên dịch.
+
 ## [1.6.0] - 2026-10-20
 
-### Pure Rust Core, Hỗ Trợ Chính Thức Linux Đa Phiên Bản (`Ubuntu 22.04 LTS+`, `.deb` / `.rpm` / `.AppImage`) & Tăng Cường Độ Chính Xác Chấm Bài
+### Rust Core, Hỗ Trợ Chính Thức Linux (`Ubuntu 22.04 LTS+`, `.deb` / `.rpm` / `.AppImage`) & Cải Thiện Chấm Bài
 
 - **Hỗ trợ chính thức Linux `x86_64` (`amd64`) đa phiên bản (từ Ubuntu 22.04 LTS trở lên)**:
-  - Phát hành đồng thời 3 định dạng bộ cài đặt Linux: `JudgeDesk_1.6.0_amd64.deb` (khuyên dùng cho Ubuntu 22.04 LTS, 24.04 LTS, 26.04 LTS+, Debian 12+, Linux Mint 21+, Pop!_OS), `JudgeDesk-1.6.0-1.x86_64.rpm` (Fedora, RHEL, AlmaLinux, Rocky, openSUSE) và `JudgeDesk_1.6.0_amd64.AppImage` (tệp thực thi portable độc lập).
-  - Toàn bộ binary thực thi (`themis-v2`, `server`, `judgedesk-executor`) được biên dịch đạt chuẩn tương thích ngược **ELF `GLIBC <= 2.34`** và mở khoá khai báo thư viện Debian (`libgtk-3-0t64 | libgtk-3-0`, `libayatana-appindicator3-1 | libappindicator3-1`), cài đặt và chạy mượt trên cả Ubuntu 22.04 LTS (`glibc 2.35`), Ubuntu 24.04 LTS (`glibc 2.39`) và Ubuntu 26.04 LTS+.
+  - Phát hành bổ sung đồng thời 3 định dạng bộ cài đặt Linux: `JudgeDesk_1.6.0_amd64.deb` (khuyên dùng cho Ubuntu 22.04 LTS, 24.04 LTS, 26.04 LTS+, Debian 12+, Linux Mint 21+, Pop!_OS), `JudgeDesk-1.6.0-1.x86_64.rpm` (Fedora, RHEL, AlmaLinux, Rocky, openSUSE) và `JudgeDesk_1.6.0_amd64.AppImage` (tệp thực thi portable độc lập).
+  - Toàn bộ binary thực thi được biên dịch đạt chuẩn tương thích ngược **ELF `GLIBC <= 2.34`** và mở khoá khai báo thư viện Debian (`libgtk-3-0t64 | libgtk-3-0`, `libayatana-appindicator3-1 | libappindicator3-1`), cài đặt và chạy tốt trên cả Ubuntu 22.04 LTS (`glibc 2.35`), Ubuntu 24.04 LTS (`glibc 2.39`) và Ubuntu 26.04 LTS+.
   - Gói `.deb` tự động kéo đầy đủ phụ thuộc (`bubblewrap`, `zenity`, `xdg-utils`, `g++`, `python3`) qua `apt`.
 - **Tự động nhận diện mọi phiên bản Compiler trên Linux (`Local (auto-detect)`)**:
   - Tự động phát hiện và kiểm chứng mọi phiên bản `g++`/`gcc`/`clang++`, `python3`, `fpc` (`ppcx64`) và `javac`/`java` có trên hệ thống mà không khoá cứng phiên bản (như `g++-13` hay `python3.12`) và không yêu cầu cấu hình đường dẫn thủ công.
@@ -19,12 +35,10 @@ Versioning; các bản `1.x` giữ tương thích updater và dữ liệu ứng 
 - **Linux Native Sandbox (`linux-bwrap-cgroup-seccomp`) & Interactive Runner (`linux_interactive`)**:
   - Cô lập thực thi bài nộp thí sinh trên Linux bằng **Bubblewrap (`bwrap`) + systemd User Scope (`cgroup v2`) + bộ lọc syscall `seccomp-bpf`**, chặn hoàn toàn kết nối mạng (`--unshare-net`), cách ly hệ thống tệp tạm thời và đo lường chính xác CPU time / Peak Memory (tới 1024 MB).
   - Bổ sung runner chấm bài tương tác hai chiều trên Linux (`linux_interactive`) với hai đường ống ẩn danh hai chiều giữa bài nộp và Interactor (C++ `testlib.h` / Python), chống deadlock `EOF`/`SIGPIPE`.
-- **In-App Updater cách ly theo đúng định dạng cài đặt trên Linux (Format-Isolated Updater)**:
-  - Nhận diện định dạng gói cài đặt đang chạy (`deb`, `rpm`, `appimage`) qua Tauri bundle runtime và ánh xạ tới mục tiêu cập nhật riêng biệt (`linux-x86_64-deb-core`, `linux-x86_64-rpm-core`, `linux-x86_64-appimage-core`), đảm bảo người dùng cài `.rpm` hoặc `.AppImage` luôn tải đúng định dạng tương ứng khi cập nhật.
-- **Kiến trúc Pure Rust Core (`judgedesk-core`) & Sửa lỗi độ chính xác chấm thi đa nền tảng**:
-  - Hoàn thiện crate `judgedesk-core` (Rust Axum backend) đạt tương đương hợp đồng API với Node.js sidecar trên cả Windows, macOS và Linux.
-  - Sửa lỗi phân giải đường dẫn mã nguồn theo tên bài không phân biệt hoa/thường trên hệ thống tệp phân biệt chữ hoa/thường (Linux/macOS).
-  - Chuẩn hoá thực thi Python độc lập (`-I -B`), ánh xạ chính xác mã kết quả của Custom Checker Themis/Testlib và bảo toàn dọn dẹp cây tiến trình (`pidfd_open` + `/proc` + `flock` trên Linux).
+- **Nhân điều phối Pure Rust (`judgedesk-core`), Xem trước Mã nguồn Checker & Bảo lưu Toolchain khi cập nhật**:
+  - Hợp nhất nhân xử lý kỳ thi, lập lịch chấm bài, tính điểm hữu tỉ và quản lý trình biên dịch sang kiến trúc **Pure Rust (`judgedesk-core`)**, tăng tốc độ phản hồi và độ ổn định đa nền tảng.
+  - Bổ sung hộp thoại xem trước mã nguồn Checker tích hợp (`C1–C5`, Polygon `testlib.h`) trực tiếp trong ứng dụng kèm nút sao chép nhanh và mở trình soạn thảo ngoài.
+  - Tự động bảo lưu toàn bộ gói toolchain đi kèm từ bản `Full` sang thư mục dữ liệu người dùng (`appDataDir/toolchains`) trước khi áp dụng bản cập nhật `Core`.
 
 ## [1.5.5] - 2026-10-07
 

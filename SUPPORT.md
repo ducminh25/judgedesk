@@ -7,7 +7,7 @@ Trước khi tạo issue báo lỗi:
 3. Loại bỏ thông tin cá nhân của thí sinh và đề thi chưa công bố khỏi nội dung gửi kèm.
 
 Thông tin cần cung cấp khi báo lỗi:
-- Phiên bản JudgeDesk đang sử dụng và định dạng gói cài đặt (`.msi`, `.dmg`, `.deb`, `.rpm`, hoặc `.AppImage`).
+- Phiên bản JudgeDesk đang sử dụng, bản phân phối (`Full` hoặc `Core`) và định dạng gói cài đặt (`.msi`, `.dmg`, `.deb`, `.rpm`, hoặc `.AppImage`).
 - Hệ điều hành và kiến trúc phần cứng:
   - Windows 10/11 x64
   - macOS Apple Silicon (`arm64`)

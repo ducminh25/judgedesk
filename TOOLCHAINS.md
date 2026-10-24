@@ -10,12 +10,12 @@ Gói **Core** chỉ gồm nhân chấm thi, cho phép tải các gói compiler �
 
 | Ngôn ngữ | Đuôi tệp | Windows x64 | macOS Apple Silicon | Linux x86_64 (`amd64` — Ubuntu 22.04 LTS+) |
 | :--- | :--- | :--- | :--- | :--- |
-| **C++** | `.cpp` | GCC 14.2.0 (Managed) / Local | Apple Clang (Hệ thống / Xcode Tools) | GCC (`g++`) / Clang (`clang++`) mọi phiên bản (Tự động nhận diện) |
-| **C** | `.c` | GCC 14.2.0 (Managed) / Local | Apple Clang (Hệ thống / Xcode Tools) | GCC (`gcc`) / Clang (`clang`) mọi phiên bản (Tự động nhận diện) |
-| **Python** | `.py` | CPython 3.12.13 (Managed) / Local | CPython 3.12.13 (Managed) / Local | CPython 3.x (`python3`) mọi phiên bản (Tự động nhận diện) |
-| **Pascal / FPC** | `.pas`, `.pp` | Free Pascal 3.2.2 (Managed) / Local | Free Pascal 3.2.2 (Managed) / Local | Free Pascal (`fpc` / `ppcx64`) (Tự động nhận diện) |
-| **Java** | `.java` | Eclipse Temurin OpenJDK 21.0.12+8 (Managed) / Local | Eclipse Temurin OpenJDK 21.0.12+8 (Managed) / Local | OpenJDK (`javac` / `java` 17/21+) (Tự động nhận diện) |
-| **Scratch** | `.sb3`, `.sb2`, `.sb` | TurboWarp VM / scratch-run 0.1.7 (Managed) | TurboWarp VM / scratch-run 0.1.7 (Managed) | TurboWarp VM / scratch-run (Tích hợp sẵn trong app) |
+| **C++** | `.cpp` | GCC 14.2.0 (Managed) / Local | Apple Clang (Hệ thống / Xcode Tools) | xPack GCC 14.2.0-2 (Managed — Bản Full) / GCC (`g++`) hoặc Clang (`clang++`) hệ thống |
+| **C** | `.c` | GCC 14.2.0 (Managed) / Local | Apple Clang (Hệ thống / Xcode Tools) | xPack GCC 14.2.0-2 (Managed — Bản Full) / GCC (`gcc`) hoặc Clang (`clang`) hệ thống |
+| **Python** | `.py` | CPython 3.12.13 (Managed) / Local | CPython 3.12.13 (Managed) / Local | CPython 3.12.13 (Managed — Bản Full) / CPython 3.x (`python3`) hệ thống |
+| **Pascal / FPC** | `.pas`, `.pp` | Free Pascal 3.2.2 (Managed) / Local | Free Pascal 3.2.2 (Managed) / Local | Free Pascal 3.2.2 (Managed — Bản Full) / Free Pascal (`fpc` / `ppcx64`) hệ thống |
+| **Java** | `.java` | Eclipse Temurin OpenJDK 21.0.12+8 (Managed) / Local | Eclipse Temurin OpenJDK 21.0.12+8 (Managed) / Local | Eclipse Temurin OpenJDK 21.0.12+8 (Managed — Bản Full) / OpenJDK (`javac` / `java` 17/21+) hệ thống |
+| **Scratch** | `.sb3`, `.sb2`, `.sb` | TurboWarp VM / scratch-run 0.1.7 (Managed) | TurboWarp VM / scratch-run 0.1.7 (Managed) | TurboWarp VM / scratch-run 0.1.7 (Managed — tích hợp sẵn cả bản Full & Core) |
 
 Phiên bản hiện tại hỗ trợ Windows 10/11 x64, macOS Apple Silicon (`arm64`) và Linux 64-bit (`x86_64` / `amd64`, chuẩn `GLIBC >= 2.34`, từ Ubuntu 22.04 LTS trở lên).
 
@@ -36,10 +36,17 @@ Bản macOS Full gồm các gói:
 
 Trên macOS, việc biên dịch C và C++ sử dụng Apple Clang từ Xcode Command Line Tools.
 
-Trên **Linux x86_64 (`.deb`, `.rpm`, `.AppImage`)**:
-- Khi cài đặt bằng gói `JudgeDesk_<version>_amd64.deb` qua `sudo apt install ./JudgeDesk_<version>_amd64.deb`, trình quản lý gói `apt` tự động cài đặt `g++`, `python3`, `bubblewrap`, `zenity` theo kho phần mềm chuẩn của bản Ubuntu/Debian đang chạy (ví dụ GCC 11 + Python 3.10 trên Ubuntu 22.04 LTS; GCC 13 + Python 3.12 trên Ubuntu 24.04 LTS; GCC 14+ trên Ubuntu 26.04 LTS+).
-- JudgeDesk tự động phát hiện và kích hoạt các trình biên dịch hệ thống ở chế độ `Local (auto-detect)` ngay khi mở ứng dụng mà không khoá cứng số hiệu phiên bản hay đường dẫn.
-- Máy ảo chấm **Scratch (`.sb3`, `.sb2`, `.sb`)** được nhúng sẵn trực tiếp trong ứng dụng trên cả 3 hệ điều hành.
+Bản **Linux Full (`_full_amd64.deb`, `-full-1.x86_64.rpm`, `_full_amd64.AppImage` — từ v1.6.1)** gồm các gói:
+1. `gcc-linux-x64` (xPack GCC 14.2.0-2 dùng chung cho C++ và C, kèm binutils & sysroot)
+2. `python-linux-x64` (CPython 3.12.13)
+3. `fpc-linux-x64` (Free Pascal 3.2.2)
+4. `temurin21-linux-x64` (Eclipse Temurin OpenJDK 21.0.12+8)
+5. `scratch-linux-x64` (`scratch-run` 0.1.7)
+
+Cơ chế vận hành trên **Linux x86_64 (`.deb`, `.rpm`, `.AppImage`)**:
+- **Với Bản Linux Full**: Toàn bộ 5 gói compiler/runtime cho 6 ngôn ngữ được đóng gói kèm chỉ mục nội dung `SHA-256` từng tệp (`toolchain-content-index`). Khi khởi chạy lần đầu, ứng dụng xác minh toàn vẹn từng tệp và tự động nhập vào bộ nhớ đệm cục bộ mà không cần kết nối mạng. Trong Bubblewrap sandbox, hệ thống tự động ánh xạ đường dẫn ngắn (`/jd-tools`, `/jd-work`) để Free Pascal biên dịch ổn định với đường dẫn thư mục dài, đồng thời thiết lập `LANG=C.UTF-8` cho Java runtime.
+- **Với Bản Linux Core**: Khi cài đặt bằng gói `JudgeDesk_<version>_amd64.deb` qua `sudo apt install ./JudgeDesk_<version>_amd64.deb`, trình quản lý gói `apt` tự động cài đặt `g++`, `python3`, `bubblewrap`, `zenity` theo kho phần mềm chuẩn của bản Ubuntu/Debian đang chạy (ví dụ GCC 11 + Python 3.10 trên Ubuntu 22.04 LTS; GCC 13 + Python 3.12 trên Ubuntu 24.04 LTS; GCC 14+ trên Ubuntu 26.04 LTS+). JudgeDesk tự động phát hiện và kích hoạt các trình biên dịch hệ thống ở chế độ `Local (auto-detect)` ngay khi mở ứng dụng mà không khoá cứng số hiệu phiên bản hay đường dẫn.
+- Máy ảo chấm **Scratch (`.sb3`, `.sb2`, `.sb`)** được nhúng sẵn trực tiếp trong ứng dụng trên cả 3 hệ điều hành (cả bản Full và bản Core).
 
 ## Cờ biên dịch và quy ước thực thi mặc định
 

@@ -2,15 +2,15 @@
 
 Tải các bản phát hành chính thức tại [GitHub Releases](https://github.com/ducminh25/judgedesk/releases).
 
-## Tổng quan nền tảng và tệp cài đặt (từ v1.6.0)
+## Tổng quan nền tảng và tệp cài đặt (v1.6.1)
 
-| Hệ điều hành | Phiên bản hỗ trợ | Tệp cài đặt khuyên dùng | Tệp thay thế / Bổ sung |
+| Hệ điều hành | Phiên bản hỗ trợ | Tệp cài đặt khuyên dùng (Bản Full) | Tệp thay thế (Bản Core / Portable) |
 | :--- | :--- | :--- | :--- |
 | **Windows x64** | Windows 10, Windows 11 (64-bit) | `JudgeDesk_<version>_full_x64_en-US.msi` | `JudgeDesk_<version>_core_x64_en-US.msi` |
 | **macOS Apple Silicon** | macOS 11 Big Sur trở lên (`arm64` — M1/M2/M3/M4) | `JudgeDesk_<version>_full_aarch64.dmg` | `JudgeDesk_<version>_core_aarch64.dmg` |
-| **Linux x86_64 (`amd64`) — Ubuntu / Debian / Mint** | **Ubuntu 22.04 LTS, 24.04 LTS, 26.04 LTS+**<br/>Debian 12+, Linux Mint 21+, Pop!_OS 22.04+, Zorin OS 17+ *(GLIBC $\ge$ 2.34)* | `JudgeDesk_<version>_amd64.deb` *(Ưu tiên)* | `JudgeDesk_<version>_amd64.AppImage` |
-| **Linux x86_64 (`amd64`) — Fedora / RHEL / openSUSE** | Fedora 38+, RHEL / AlmaLinux / Rocky 9+, openSUSE *(GLIBC $\ge$ 2.34)* | `JudgeDesk-<version>-1.x86_64.rpm` | `JudgeDesk_<version>_amd64.AppImage` |
-| **Linux x86_64 (`amd64`) — Arch / Distro khác** | Các bản phân phối Linux 64-bit có `GLIBC >= 2.34` | `JudgeDesk_<version>_amd64.AppImage` | — |
+| **Linux x86_64 (`amd64`) — Ubuntu / Debian / Mint** | **Ubuntu 22.04 LTS, 24.04 LTS, 26.04 LTS+**<br/>Debian 12+, Linux Mint 21+, Pop!_OS 22.04+, Zorin OS 17+ *(GLIBC $\ge$ 2.34)* | `JudgeDesk_<version>_full_amd64.deb` *(Ưu tiên)* | `JudgeDesk_<version>_amd64.deb` *(Core)*<br/>`JudgeDesk_<version>_full_amd64.AppImage`<br/>`JudgeDesk_<version>_amd64.AppImage` *(Core)* |
+| **Linux x86_64 (`amd64`) — Fedora / RHEL / openSUSE** | Fedora 38+, RHEL / AlmaLinux / Rocky 9+, openSUSE *(GLIBC $\ge$ 2.34)* | `JudgeDesk-<version>-full-1.x86_64.rpm` | `JudgeDesk-<version>-1.x86_64.rpm` *(Core)*<br/>`JudgeDesk_<version>_full_amd64.AppImage`<br/>`JudgeDesk_<version>_amd64.AppImage` *(Core)* |
+| **Linux x86_64 (`amd64`) — Arch / Distro khác** | Các bản phân phối Linux 64-bit có `GLIBC >= 2.34` | `JudgeDesk_<version>_full_amd64.AppImage` | `JudgeDesk_<version>_amd64.AppImage` *(Core)* |
 
 ---
 
@@ -61,7 +61,11 @@ xattr -dr com.apple.quarantine /Applications/JudgeDesk.app
 
 ## 3. Linux x86_64 (`amd64`) — Ubuntu 22.04 LTS, 24.04 LTS, 26.04 LTS+ & Các Bản Phân Phối Khác
 
-Từ phiên bản **v1.6.0**, các tệp thực thi Linux của JudgeDesk được biên dịch đạt chuẩn tương thích ngược **ELF `GLIBC <= 2.34`** và khai báo phụ thuộc thư viện linh hoạt (`libgtk-3-0t64 | libgtk-3-0`, `libwebkit2gtk-4.1-0`, `libayatana-appindicator3-1 | libappindicator3-1`). Nhờ đó, bộ cài hoạt động xuyên suốt từ **Ubuntu 22.04 LTS (Jammy)**, **Ubuntu 24.04 LTS (Noble)** đến **Ubuntu 26.04 LTS+** và các bản phân phối nhân Linux 64-bit hiện đại mà không bị khoá cứng vào một phiên bản hệ điều hành duy nhất.
+Các tệp thực thi Linux của JudgeDesk được biên dịch đạt chuẩn tương thích ngược **ELF `GLIBC <= 2.34`** và khai báo phụ thuộc thư viện linh hoạt (`libgtk-3-0t64 | libgtk-3-0`, `libwebkit2gtk-4.1-0`, `libayatana-appindicator3-1 | libappindicator3-1`). Nhờ đó, bộ cài hoạt động xuyên suốt từ **Ubuntu 22.04 LTS (Jammy)**, **Ubuntu 24.04 LTS (Noble)** đến **Ubuntu 26.04 LTS+** và các bản phân phối nhân Linux 64-bit hiện đại mà không bị khoá cứng vào một phiên bản hệ điều hành duy nhất.
+
+Từ phiên bản **v1.6.1**, Linux hỗ trợ đầy đủ cả **Bản Full** và **Bản Core** trên cả 3 định dạng gói (`.deb`, `.rpm`, `.AppImage`):
+- **Bản Full (`_full_amd64.deb`, `-full-1.x86_64.rpm`, `_full_amd64.AppImage`)**: Đóng gói sẵn toàn bộ 6 ngôn ngữ lập trình offline ngay trong bộ cài gồm xPack GCC 14.2.0-2 (C/C++ kèm binutils & sysroot), CPython 3.12.13, Free Pascal 3.2.2, Eclipse Temurin JDK 21.0.12+8 và `scratch-run` 0.1.7. Khi khởi chạy lần đầu, ứng dụng tự động xác minh chỉ mục `SHA-256` từng tệp và kích hoạt trọn bộ compiler mà không cần kết nối mạng.
+- **Bản Core (`_amd64.deb`, `-1.x86_64.rpm`, `_amd64.AppImage`)**: Bản rút gọn nhẹ, tích hợp sẵn máy ảo chấm Scratch (`scratch-run` 0.1.7) và tự động phát hiện mọi trình biên dịch có sẵn trên hệ thống (`g++`/`gcc`/`clang++`, `python3`, `fpc`, `javac`).
 
 ### 3.1. Xác minh tệp tải về (SHA-256)
 
@@ -77,54 +81,60 @@ Chỉ tiếp tục cài đặt khi tệp tải về báo `OK`.
 
 #### A. Gói `.deb` — Khuyên dùng cho Ubuntu 22.04 LTS / 24.04 LTS / 26.04 LTS+, Debian 12+, Linux Mint 21+, Pop!_OS
 
-Tệp: `JudgeDesk_<version>_amd64.deb`
+Tệp:
+- Bản Full: `JudgeDesk_<version>_full_amd64.deb` *(Khuyên dùng cho phòng thi / offline)*
+- Bản Core: `JudgeDesk_<version>_amd64.deb`
 
 Chạy lệnh sau trong thư mục chứa tệp `.deb` (bắt buộc có dấu `./` ở đầu tên tệp để `apt` tự động tải các gói phụ thuộc):
 
 ```bash
 sudo apt update
-sudo apt install ./JudgeDesk_<version>_amd64.deb
+sudo apt install ./JudgeDesk_<version>_full_amd64.deb   # hoặc ./JudgeDesk_<version>_amd64.deb (bản Core)
 ```
 
 - `apt` sẽ tự động cài đặt luôn `bubblewrap` (sandbox cô lập bài nộp), `zenity` (hộp thoại chọn thư mục gốc), `xdg-utils`, `g++`, `python3` và các thư viện giao diện GTK/WebKit2GTK phù hợp với phiên bản Ubuntu của bạn.
-- Nếu kỳ thi có chấm **Pascal** hoặc **Java**, cài đặt thêm trình biên dịch tương ứng:
+- Nếu bạn cài **Bản Core** và kỳ thi có chấm **Pascal** hoặc **Java** trên máy chưa có sẵn compiler, có thể cài thêm qua `apt` (bản **Full** đã đóng gói sẵn cả 6 ngôn ngữ nên không cần bước này):
   ```bash
   sudo apt install fpc default-jdk
   ```
 
 #### B. Gói `.rpm` — Dành cho Fedora 38+, RHEL / AlmaLinux / Rocky Linux 9+, openSUSE
 
-Tệp: `JudgeDesk-<version>-1.x86_64.rpm`
+Tệp:
+- Bản Full: `JudgeDesk-<version>-full-1.x86_64.rpm` *(Khuyên dùng)*
+- Bản Core: `JudgeDesk-<version>-1.x86_64.rpm`
 
 ```bash
 # Trên Fedora / RHEL / AlmaLinux / Rocky Linux:
-sudo dnf install ./JudgeDesk-<version>-1.x86_64.rpm
-sudo dnf install bubblewrap zenity gcc-c++ python3
+sudo dnf install ./JudgeDesk-<version>-full-1.x86_64.rpm   # hoặc ./JudgeDesk-<version>-1.x86_64.rpm (bản Core)
+sudo dnf install bubblewrap zenity
 
-# Tùy chọn nếu chấm thêm Pascal / Java:
-sudo dnf install fpc java-21-openjdk-devel
+# Tùy chọn nếu dùng bản Core và muốn cài compiler hệ thống:
+sudo dnf install gcc-c++ python3 fpc java-21-openjdk-devel
 ```
 
-*(Trên openSUSE, sử dụng `sudo zypper install ./JudgeDesk-<version>-1.x86_64.rpm`).*
+*(Trên openSUSE, sử dụng `sudo zypper install ./JudgeDesk-<version>-full-1.x86_64.rpm`).*
 
 #### C. Gói `.AppImage` — Tệp chạy độc lập (Portable) cho mọi distro Linux `x86_64`
 
-Tệp: `JudgeDesk_<version>_amd64.AppImage`
+Tệp:
+- Bản Full: `JudgeDesk_<version>_full_amd64.AppImage` *(Đóng gói sẵn toàn bộ 6 ngôn ngữ offline)*
+- Bản Core: `JudgeDesk_<version>_amd64.AppImage`
 
-1. Đảm bảo máy đã có `bubblewrap`, `zenity`, trình biên dịch (`g++`, `python3`...) và thư viện FUSE 2 để chạy AppImage:
-   - Trên Ubuntu 22.04: `sudo apt install libfuse2 bubblewrap zenity g++ python3`
-   - Trên Ubuntu 24.04+: `sudo apt install libfuse2t64 bubblewrap zenity g++ python3`
+1. Đảm bảo máy đã có `bubblewrap`, `zenity` và thư viện FUSE 2 để chạy AppImage (cùng compiler hệ thống nếu dùng bản Core):
+   - Trên Ubuntu 22.04: `sudo apt install libfuse2 bubblewrap zenity`
+   - Trên Ubuntu 24.04+: `sudo apt install libfuse2t64 bubblewrap zenity`
 2. Cấp quyền thực thi và mở trực tiếp ứng dụng:
    ```bash
-   chmod +x ./JudgeDesk_<version>_amd64.AppImage
-   ./JudgeDesk_<version>_amd64.AppImage
+   chmod +x ./JudgeDesk_<version>_full_amd64.AppImage   # hoặc ./JudgeDesk_<version>_amd64.AppImage
+   ./JudgeDesk_<version>_full_amd64.AppImage
    ```
 
-### 3.3. Tự động nhận diện trình biên dịch trên Linux
+### 3.3. Quản lý và tự động nhận diện trình biên dịch trên Linux
 
-Từ **v1.6.0**, bạn **không cần** chọn tay đường dẫn `/usr/bin/g++-13` hay `/usr/bin/python3.12`.
-- Ngay khi mở ứng dụng, JudgeDesk tự động quét và nhận diện mọi phiên bản `g++` / `gcc` / `clang++` (GCC 11, 12, 13, 14...), `python3` (3.10, 3.11, 3.12, 3.13...), `fpc` và `javac`/`java` có trong `PATH` hoặc thư mục chuẩn của hệ thống ở chế độ **Local (auto-detect)**.
-- Bạn có thể bấm phím `F6` (**Trình biên dịch & Runtime**) để kiểm tra trạng thái **Sẵn sàng chấm bài (Submission ready)** của từng ngôn ngữ, hoặc bấm **Quét lại (Rescan)** nếu vừa cài thêm compiler mới.
+- **Với Bản Full**: Toàn bộ 6 ngôn ngữ (GCC 14.2.0-2, CPython 3.12.13, Free Pascal 3.2.2, Temurin JDK 21, Scratch 0.1.7) được xác minh `SHA-256` từng tệp và nhập tự động vào bộ nhớ đệm ngay lần đầu khởi chạy ở chế độ **Managed**. Sandbox Linux tự động ánh xạ đường dẫn ngắn (`/jd-tools`, `/jd-work`) giúp Free Pascal biên dịch ổn định ngay cả khi thư mục máy chủ có đường dẫn dài.
+- **Với Bản Core (hoặc khi dùng compiler hệ thống)**: Bạn **không cần** chọn tay đường dẫn `/usr/bin/g++-13` hay `/usr/bin/python3.12`. Ngay khi mở ứng dụng, JudgeDesk tự động quét và nhận diện mọi phiên bản `g++` / `gcc` / `clang++` (GCC 11, 12, 13, 14...), `python3` (3.10, 3.11, 3.12, 3.13...), `fpc` và `javac`/`java` có trong `PATH` hoặc thư mục chuẩn của hệ thống ở chế độ **Local (auto-detect)**.
+- Bạn có thể bấm phím `F6` (**Trình biên dịch & Runtime**) để kiểm tra trạng thái **Sẵn sàng chấm bài (Submission ready)** của từng ngôn ngữ, chuyển đổi giữa gói `Managed` và `Local`, hoặc bấm **Quét lại (Rescan)** nếu vừa cài thêm compiler mới.
 - **Scratch (`.sb3`, `.sb2`, `.sb`)**, **Bài thi tương tác (Interactive)** và **Universal Precompiled Header (`bits/stdc++.h.gch`)** đều hoạt động sẵn trên Linux.
 
 > **Lưu ý về Sandbox trên một số bản Linux tuỳ biến:** JudgeDesk sử dụng `bubblewrap` (`bwrap`) kết hợp `cgroup v2` và `seccomp-bpf` để cách ly bài làm thí sinh. Trên Ubuntu 22.04 LTS và 24.04 LTS chuẩn, chính sách AppArmor cho `/usr/bin/bwrap` đã được cấu hình sẵn. Nếu hệ thống của bạn khoá cứng user namespaces đối với `bwrap` (mục **Native Execution Sandbox** báo chưa sẵn sàng), hãy kiểm tra gói `bubblewrap` và cấu hình AppArmor `/etc/apparmor.d/bwrap` của bản phân phối, tuyệt đối không tắt toàn bộ cơ chế bảo mật hạt nhân của hệ điều hành.
@@ -136,18 +146,18 @@ Từ **v1.6.0**, bạn **không cần** chọn tay đường dẫn `/usr/bin/g++
 Ứng dụng kiểm tra phiên bản mới tự động qua nút **Cập nhật (Updater)** trên thanh công cụ:
 - **Tự động cập nhật qua Updater (In-App)**:
   - Trên **Windows** và **macOS**: Tải gói cập nhật ứng dụng cốt lõi siêu nhẹ (~20MB), giữ nguyên toàn bộ toolchain đã có sẵn mà không phải tải lại hàng trăm MB compiler qua mạng.
-  - Trên **Linux (`.deb` / `.rpm` / `.AppImage`)**: Trình cập nhật được cách ly theo đúng định dạng cài đặt ban đầu (`linux-x86_64-deb-core`, `linux-x86_64-rpm-core`, `linux-x86_64-appimage-core`). Máy cài bằng `.deb` sẽ luôn nhận bản cập nhật `.deb`, máy cài `.rpm` luôn nhận `.rpm`, và `.AppImage` luôn cập nhật `.AppImage` — tránh hoàn toàn xung đột định dạng gói giữa các bản phân phối Linux.
-- **Chuyển từ Core sang Full (Windows & macOS)**: Có 2 cách thuận tiện:
-  1. *Cách 1 (In-App)*: Vào tab **Quản lý Toolchain (`F6`)** và bấm **Tải về** các ngôn ngữ mong muốn.
-  2. *Cách 2 (Cài đặt đè)*: Tải và chạy file `JudgeDesk_<version>_full_*.msi` (Windows) hoặc `.dmg` (macOS) mới nhất từ GitHub Releases để cài đặt trọn bộ compiler vào thư mục ứng dụng.
+  - Trên **Linux (`.deb` / `.rpm` / `.AppImage`)**: Trình cập nhật được cách ly theo đúng định dạng cài đặt ban đầu (`linux-x86_64-deb-core`/`full`, `linux-x86_64-rpm-core`/`full`, `linux-x86_64-appimage-core`/`full`). Máy cài bằng `.deb` sẽ luôn nhận bản cập nhật `.deb`, máy cài `.rpm` luôn nhận `.rpm`, và `.AppImage` luôn cập nhật `.AppImage` — tránh hoàn toàn xung đột định dạng gói giữa các bản phân phối Linux.
+- **Chuyển từ Core sang Full (Windows, macOS & Linux)**: Có 2 cách thuận tiện:
+  1. *Cách 1 (In-App trên Windows/macOS)*: Vào tab **Quản lý Toolchain (`F6`)** và bấm **Tải về** các ngôn ngữ mong muốn.
+  2. *Cách 2 (Cài đặt đè trên Windows, macOS & Linux)*: Tải và chạy file `JudgeDesk_<version>_full_*` (`.msi` trên Windows, `.dmg` trên macOS, hoặc `_full_amd64.deb` / `-full-1.x86_64.rpm` / `_full_amd64.AppImage` trên Linux) mới nhất từ GitHub Releases để cài đặt trọn bộ compiler vào máy.
 
 ## Quản lý trình biên dịch và lưu trữ
 
 Hệ thống hỗ trợ 6 ngôn ngữ: **C++, C, Python, Pascal, Java và Scratch (`.sb3`, `.sb2`, `.sb`)**:
-- **Bản Full (Windows / macOS)**: Chứa sẵn bộ compiler/runtime trong thư mục cài đặt ứng dụng (`resources/toolchains`), dùng trực tiếp (Zero-Copy), khởi động tức thì và dùng chung an toàn cho mọi tài khoản trên máy.
-- **Bản Core / Tải thêm theo nhu cầu**: Các gói tải về từ kho lưu trữ chính thức được lưu tại:
+- **Bản Full (Windows / macOS / Linux)**: Chứa sẵn bộ compiler/runtime trong gói cài đặt ứng dụng (`resources/toolchains`), xác thực toàn vẹn SHA-256 và sẵn sàng chấm offline ngay từ lần khởi chạy đầu tiên.
+- **Bản Core / Tải thêm theo nhu cầu**: Các gói tải về hoặc được nhập vào kho lưu trữ của người dùng được lưu tại:
   - Windows: `%LOCALAPPDATA%\ThemisV2\toolchains`
-  - macOS: `~/Library/Application Support/ThemisV2/toolchains`
+  - macOS: `~/Library/Application Support/ThemisV2\toolchains`
   - Linux: `~/.local/share/ThemisV2/toolchains`
 - **Trình biên dịch trên máy (Local)**: Ứng dụng tự động phát hiện compiler có sẵn trong `PATH` hoặc qua đường dẫn chỉ định thủ công sau khi vượt qua bước kiểm tra tương thích với Sandbox.
 
