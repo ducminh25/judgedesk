@@ -1,1 +1,11 @@
-{ "schemaVersion": 1, "entries": [] }
+{
+  "schemaVersion": 1,
+  "entries": [
+    {
+      "uid": "297f4508-b956-4cbc-bcd0-07ba02889eb8",
+      "revision": 1,
+      "publishedAt": "2026-10-24T13:10:39.842Z",
+      "status": "published"
+    }
+  ]
+}
