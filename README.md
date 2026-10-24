@@ -8,7 +8,7 @@ JudgeDesk hỗ trợ 6 ngôn ngữ lập trình: **C++, C, Python 3, Pascal (Fre
 
 ---
 
-## Tải về và chọn bản cài đặt (v1.6.1)
+## Tải về và chọn bản cài đặt
 
 Tải bộ cài chính thức tại [GitHub Releases](https://github.com/ducminh25/judgedesk/releases).
 
