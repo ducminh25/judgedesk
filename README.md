@@ -6,15 +6,17 @@ JudgeDesk là phần mềm desktop chấm bài lập trình cục bộ (offline)
 
 JudgeDesk hỗ trợ 6 ngôn ngữ lập trình: **C++, C, Python 3, Pascal (Free Pascal), Java (OpenJDK) và Scratch (`.sb3`, `.sb2`, `.sb`)**. Mã nguồn thí sinh được thực thi trong môi trường cách ly an toàn của từng hệ điều hành (Windows AppContainer + Job Objects, macOS Seatbelt + Run Guardian, Linux Bubblewrap + `cgroup v2` + `seccomp-bpf`) và không tự ý đổi sang trình biên dịch khác khi cấu hình lỗi.
 
+**Kho mã nguồn (source):** [`ducminh25/judgedesk-source`](https://github.com/ducminh25/judgedesk-source)
+
 ---
 
 ## Tải về và chọn bản cài đặt
 
-Tải bộ cài chính thức tại [GitHub Releases](https://github.com/ducminh25/judgedesk/releases).
+Tải bộ cài chính thức phiên bản mới nhất tại [GitHub Releases](https://github.com/ducminh25/judgedesk/releases/latest).
 
 ### Bảng tổng hợp các loại tệp cài đặt theo hệ điều hành
 
-| Hệ điều hành | Phiên bản hỗ trợ | Định dạng & Tên tệp cài đặt | Khuyến nghị & Đặc điểm |
+| Hệ điều hành | Phiên bản hỗ trợ | Định dạng & Tên tệp cài đặt | Mô tả |
 | :--- | :--- | :--- | :--- |
 | **Windows x64** | Windows 10, Windows 11 (64-bit) | `JudgeDesk_<version>_full_x64_en-US.msi`<br/>`JudgeDesk_<version>_core_x64_en-US.msi` | **Full** *(Khuyên dùng cho phòng thi)*: Có sẵn WebView2 Runtime offline và toàn bộ compiler/runtime (GCC 14, Python 3.12, Free Pascal, OpenJDK 21, Scratch VM).<br/>**Core**: Bản rút gọn, tự nhận diện compiler trên máy hoặc tải thêm gói ký số trong app. |
 | **macOS Apple Silicon** | macOS 11 Big Sur trở lên (`arm64` — M1/M2/M3/M4) | `JudgeDesk_<version>_full_aarch64.dmg`<br/>`JudgeDesk_<version>_core_aarch64.dmg` | **Full** *(Khuyên dùng)*: Đóng gói sẵn Python 3.12, Free Pascal, OpenJDK 21 và Scratch VM; C/C++ dùng Apple Clang (`xcode-select --install`).<br/>**Core**: Bản rút gọn dùng compiler hệ thống hoặc tải gói managed. |
@@ -123,16 +125,15 @@ Trong ứng dụng, nhấn `F1` bất kỳ lúc nào để mở **Trung tâm hư
 - [Hỗ trợ và báo lỗi](SUPPORT.md)
 - [Chính sách bảo mật](SECURITY.md)
 - [Lịch sử thay đổi (Changelog)](CHANGELOG.md)
-- **Kho mã nguồn công khai (Source Repository):** [`ducminh25/judgedesk-source`](https://github.com/ducminh25/judgedesk-source)
 
 ---
 
 ## Ủng hộ dự án (Donate)
 
-JudgeDesk được phát triển và duy trì hoàn toàn miễn phí nhằm phục vụ cộng đồng giáo viên và học sinh dạy - học lập trình. Nếu ứng dụng giúp ích cho công việc giảng dạy, chấm thi của thầy/cô và các bạn, mọi người có thể ủng hộ tác giả một ly cà phê để tiếp thêm động lực duy trì và phát triển các tính năng mới:
+JudgeDesk được phát triển và duy trì **hoàn toàn miễn phí** nhằm phục vụ cộng đồng giáo viên và học sinh dạy - học lập trình. Nếu ứng dụng giúp ích cho công việc giảng dạy, chấm thi của thầy/cô và các bạn, mọi người có thể ủng hộ tác giả một ly cà phê để tiếp thêm động lực duy trì và phát triển các tính năng mới:
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/ducminh25/judgedesk-source/main/src/assets/donate-qr.jpg" alt="Mã QR Ủng hộ tác giả Đinh Đức Minh" width="320" />
+  <img src="https://img.vietqr.io/image/MB-0835385259-compact.svg?amount=&addInfo=JudgeDesk%20Donation" alt="Mã QR Ủng hộ tác giả Hoàng Đức Minh" width="320" />
 </p>
 
 - **Ngân hàng:** VPBank
