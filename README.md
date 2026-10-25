@@ -6,6 +6,8 @@ JudgeDesk là phần mềm desktop chấm bài lập trình cục bộ (offline)
 
 JudgeDesk hỗ trợ 6 ngôn ngữ lập trình: **C++, C, Python 3, Pascal (Free Pascal), Java (OpenJDK) và Scratch (`.sb3`, `.sb2`, `.sb`)**. Mã nguồn thí sinh được thực thi trong môi trường cách ly an toàn của từng hệ điều hành (Windows AppContainer + Job Objects, macOS Seatbelt + Run Guardian, Linux Bubblewrap + `cgroup v2` + `seccomp-bpf`) và không tự ý đổi sang trình biên dịch khác khi cấu hình lỗi.
 
+Liên hệ với tác giả: Hoàng Đức Minh (Mon) - 26521215 - ducmon2509@gmail.com
+
 ---
 
 ## Tải về và chọn bản cài đặt
