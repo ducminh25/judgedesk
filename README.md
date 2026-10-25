@@ -136,8 +136,8 @@ JudgeDesk được phát triển và duy trì **hoàn toàn miễn phí** nhằm
   <img src="https://img.vietqr.io/image/MB-0835385259-compact.svg?amount=&addInfo=JudgeDesk%20Donation" alt="Mã QR Ủng hộ tác giả Hoàng Đức Minh" width="320" />
 </p>
 
-- **Ngân hàng:** VPBank
-- **Chủ tài khoản:** DINH DUC MINH
-- **Số tài khoản:** `0386014658`
+- **Ngân hàng:** MB
+- **Chủ tài khoản:** HOANG DUC MINH
+- **Số tài khoản:** `0835385259`
 
 Trân trọng cảm ơn sự đồng hành và đóng góp của quý thầy cô và các bạn!
